@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Moaaz Tamer — Full Stack Developer & Web Creator.">
+<title>Moaaz Tamer — Full Stack Developer & Web Creator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body data-page="skills"><header class="site-header">
+  <a class="brand" href="index.html" aria-label="Moaaz Tamer home"><span class="brand-mark">M</span><span>Moaaz Tamer</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
+    <a href="projects.html" data-page="projects" data-i18n="navProjects">Projects</a>
+    <a href="about.html" data-page="about" data-i18n="navAbout">About</a>
+    <a href="contact.html" data-page="contact" data-i18n="navContact">Contact</a>
+    <a href="skills.html" data-page="skills" data-i18n="navSkills">Skills</a>
+    <a href="admin.html" data-page="dashboard" data-i18n="navDashboard">Dashboard</a>
+  </nav>
+  <div class="header-actions"><div data-auth-slot class="auth-slot"></div>
+    <button class="icon-btn" id="langBtn" type="button" aria-label="Switch language">AR</button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme"><span>◐</span></button>
+    <button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <div class="mobile-menu-top"><span data-i18n="menuTitle">Navigate</span><span>M / 01</span></div>
+    <nav>
+      <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
+      <a href="projects.html" data-page="projects" data-i18n="navProjects">Projects</a>
+      <a href="about.html" data-page="about" data-i18n="navAbout">About</a>
+      <a href="contact.html" data-page="contact" data-i18n="navContact">Contact</a>
+      <a href="skills.html" data-page="skills" data-i18n="navSkills">Skills</a>
+      <a href="admin.html" data-page="dashboard" data-i18n="navDashboard">Dashboard</a>
+    </nav>
+    <div class="mobile-menu-tools"><button id="mobileLangBtn" type="button">AR</button><button id="mobileThemeBtn" type="button">◐</button></div>
+  </div>
+</div>
+<main>
+<section class="page-hero section-shell"><div class="eyebrow"><span>01</span><span data-i18n="skillsEyebrow">SKILLS</span></div><h1 data-i18n="skillsPageHeading">Tools I use<br><em>and learn.</em></h1><p data-i18n="skillsPageIntro">A clear look at the technologies in my current workflow and the ones I'm learning next.</p></section>
+<section class="skills-section section-shell section-border"><div class="skill-group"><div class="group-head"><span>02</span><div><h2 data-i18n="currentSkillsTitle">Currently using</h2><p data-i18n="currentSkillsText">Technologies I use in my projects today.</p></div></div><div id="currentSkills" class="skill-grid"></div></div><div class="skill-group learning-group"><div class="group-head"><span>03</span><div><h2 data-i18n="learningTitle">Currently learning</h2><p data-i18n="learningText">The next tools I'm adding to my development toolkit.</p></div></div><div id="learningSkills" class="skill-grid"></div></div></section>
+<section class="skill-note section-shell section-border"><div><span class="section-label-inline">04</span><h2 data-i18n="skillNoteTitle">No fake percentages.<br><em>Just honest progress.</em></h2></div><p data-i18n="skillNoteText">I prefer showing what I actually use and what I'm currently learning instead of inventing experience levels.</p></section>
+</main><footer class="site-footer"><div><strong>Moaaz Tamer</strong><span data-i18n="footerRole">Full Stack Developer & Web Creator</span></div><span>© <span id="year"></span> Moaaz Tamer</span><a href="contact.html" data-i18n="footerCta">Let's talk ↗</a></footer><script src="js/public-data.js"></script><script src="js/data.js"></script><script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/portfolio.js"></script></body></html>

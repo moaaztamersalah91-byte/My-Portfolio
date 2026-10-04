@@ -1,1 +1,45 @@
-<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Projects by Moaaz Salah."><title>Projects — Moaaz Salah</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body><div id="theme-curtain" class="theme-curtain"><span>M</span></div><header class="site-header"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Moaaz<span class="muted">/</span>01</span></a><nav class="desktop-nav"><a href="index.html" data-i18n="navHome">Home</a><a class="active" href="projects.html" data-i18n="navProjects">Projects</a><a href="about.html" data-i18n="navAbout">About</a><a href="contact.html" data-i18n="navContact">Contact</a><a href="admin.html" data-i18n="navDashboard">Dashboard</a></nav><div class="header-tools"><div data-auth-slot class="auth-slot"></div><button class="tool" id="langBtn">AR</button><button class="tool theme-btn" id="themeBtn">◐</button><button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button></div></header><main><section class="page-hero section-pad"><div class="section-kicker"><span>01</span><span data-i18n="projectsKicker">The archive</span></div><h1 data-i18n="projectsTitle">A collection of<br><em>digital worlds.</em></h1><div class="page-hero-bottom"><p data-i18n="projectsIntro">Fifteen frontend experiences across hospitality, fashion, travel, healthcare, automotive and more. Filter them, search them, fall into a rabbit hole.</p><div class="live-count"><span id="projectCount">0</span><small data-i18n="projectsLabel">Projects</small></div></div></section><section class="project-controls section-pad"><div class="search-wrap"><span>⌕</span><input id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Search projects, keywords, tech..."></div><div id="filters" class="filters"></div></section><section class="section-pad project-list"><div id="projectGrid" class="project-grid"></div><div id="emptyState" class="empty-state" hidden><span>∅</span><h3 data-i18n="noResults">Nothing matched that search.</h3><p data-i18n="tryAgain">Try another keyword or clear the filter.</p></div></section></main><footer class="site-footer"><span>© 2026 Moaaz Salah</span><span data-i18n="madeIn">Made in Egypt · Built with HTML, CSS & JavaScript</span><a href="contact.html" data-i18n="letsTalk">Let's talk</a></footer><script src="js/data.js"></script><script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Moaaz Tamer — Full Stack Developer & Web Creator.">
+<title>Moaaz Tamer — Full Stack Developer & Web Creator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body data-page="projects"><header class="site-header">
+  <a class="brand" href="index.html" aria-label="Moaaz Tamer home"><span class="brand-mark">M</span><span>Moaaz Tamer</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
+    <a href="projects.html" data-page="projects" data-i18n="navProjects">Projects</a>
+    <a href="about.html" data-page="about" data-i18n="navAbout">About</a>
+    <a href="contact.html" data-page="contact" data-i18n="navContact">Contact</a>
+    <a href="skills.html" data-page="skills" data-i18n="navSkills">Skills</a>
+    <a href="admin.html" data-page="dashboard" data-i18n="navDashboard">Dashboard</a>
+  </nav>
+  <div class="header-actions"><div data-auth-slot class="auth-slot"></div>
+    <button class="icon-btn" id="langBtn" type="button" aria-label="Switch language">AR</button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme"><span>◐</span></button>
+    <button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <div class="mobile-menu-top"><span data-i18n="menuTitle">Navigate</span><span>M / 01</span></div>
+    <nav>
+      <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
+      <a href="projects.html" data-page="projects" data-i18n="navProjects">Projects</a>
+      <a href="about.html" data-page="about" data-i18n="navAbout">About</a>
+      <a href="contact.html" data-page="contact" data-i18n="navContact">Contact</a>
+      <a href="skills.html" data-page="skills" data-i18n="navSkills">Skills</a>
+      <a href="admin.html" data-page="dashboard" data-i18n="navDashboard">Dashboard</a>
+    </nav>
+    <div class="mobile-menu-tools"><button id="mobileLangBtn" type="button">AR</button><button id="mobileThemeBtn" type="button">◐</button></div>
+  </div>
+</div>
+<main>
+<section class="page-hero section-shell"><div class="eyebrow"><span>01</span><span data-i18n="projectsEyebrow">SELECTED WORK</span></div><h1 data-i18n="projectsHeading">Real projects.<br><em>Real practice.</em></h1><p data-i18n="projectsIntro">A collection of websites I built to practice, experiment, and turn ideas into working experiences.</p><div class="project-total"><strong id="projectCount">15</strong><span data-i18n="projectCountLabel">projects</span></div></section>
+<section class="project-toolbar section-shell"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Search projects..."></div><div id="filters" class="filters"></div></section>
+<section class="section-shell project-list"><div id="projectGrid" class="project-grid project-grid-large"></div><div id="emptyState" class="empty-state" hidden><strong>∅</strong><h3 data-i18n="noResults">No projects found.</h3><p data-i18n="tryAgain">Try another keyword.</p></div></section>
+</main><footer class="site-footer"><div><strong>Moaaz Tamer</strong><span data-i18n="footerRole">Full Stack Developer & Web Creator</span></div><span>© <span id="year"></span> Moaaz Tamer</span><a href="contact.html" data-i18n="footerCta">Let's talk ↗</a></footer><script src="js/public-data.js"></script><script src="js/data.js"></script><script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/portfolio.js"></script></body></html>

@@ -29,6 +29,7 @@
           if(user){
             startUserLive(user);
             if(await isAdmin(user)) startAdminLive(user);
+            if(document.getElementById('accountPage')) window.dispatchEvent(new Event('moaaz:account-ready'));
           } else {
             updateUnread(null);
           }
@@ -167,6 +168,63 @@
     await ready;if(!db||!auth?.currentUser)throw new Error('AUTH_REQUIRED');const u=auth.currentUser;
     const ref=await db.collection('messages').add({userId:u.uid,userName:u.displayName||u.email,userEmail:u.email||'',text:String(text).trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp(),readByAdmin:false});
     return ref;
+  }
+  async function deleteAdminReply(messageId){
+    await ready;
+    if(!db||!auth?.currentUser) throw new Error('AUTH_REQUIRED');
+    const uid=auth.currentUser.uid;
+    const ref=db.collection('messages').doc(String(messageId));
+    const snap=await ref.get();
+    if(!snap.exists) throw new Error('MESSAGE_NOT_FOUND');
+    const data=snap.data()||{};
+    if(data.userId!==uid || !data.replyTo || !data.adminId) throw new Error('DELETE_NOT_ALLOWED');
+    const batch=db.batch();
+    batch.delete(ref);
+    const notes=await db.collection('notifications').where('recipientId','==',uid).where('messageId','==',String(messageId)).get();
+    notes.forEach(doc=>batch.delete(doc.ref));
+    try{ await batch.commit(); }
+    catch(err){
+      err.operation='DELETE_ADMIN_REPLY';
+      console.error('[DELETE_REPLY] Firestore batch failed', {code:err.code, message:err.message, messageId, userId:uid});
+      throw err;
+    }
+    return true;
+  }
+  async function deleteUserMessage(messageId){
+    await ready;
+    if(!db||!auth?.currentUser) throw new Error('AUTH_REQUIRED');
+    const uid=auth.currentUser.uid;
+    const rootRef=db.collection('messages').doc(String(messageId));
+    const rootSnap=await rootRef.get();
+    if(!rootSnap.exists) throw new Error('MESSAGE_NOT_FOUND');
+    const root=rootSnap.data()||{};
+    if(root.userId!==uid || root.replyTo) throw new Error('DELETE_NOT_ALLOWED');
+
+    const batch=db.batch();
+    const deletedMessageIds=new Set([String(messageId)]);
+    const threadSnap=await db.collection('messages').where('userId','==',uid).get();
+    threadSnap.forEach(doc=>{
+      const data=doc.data()||{};
+      if(doc.id===String(messageId) || data.replyTo===String(messageId) || data.threadId===String(messageId)){
+        deletedMessageIds.add(doc.id);
+        batch.delete(doc.ref);
+      }
+    });
+
+    const notes=await db.collection('notifications').where('recipientId','==',uid).get();
+    notes.forEach(doc=>{
+      const data=doc.data()||{};
+      if(deletedMessageIds.has(String(data.messageId||'')) || data.threadId===String(messageId)) batch.delete(doc.ref);
+    });
+
+    try{
+      await batch.commit();
+    }catch(err){
+      err.operation='DELETE_USER_MESSAGE';
+      console.error('[DELETE_MESSAGE] Firestore batch failed', {code:err.code, message:err.message, messageId, userId:uid});
+      throw err;
+    }
+    return true;
   }
   async function replyToMessage(messageId, recipientId, text){
     await ready;
@@ -398,7 +456,7 @@
     };
   }
 
-  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,showDownloadAuthToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,recordDownload,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
+  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,showDownloadAuthToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,deleteAdminReply,deleteUserMessage,recordDownload,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
 
   document.addEventListener('DOMContentLoaded',()=>{
     if(document.getElementById('loginPanel')){ready.then(()=>bindLoginPage());}

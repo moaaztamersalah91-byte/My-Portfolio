@@ -13,15 +13,21 @@
   <div id="theme-curtain" class="theme-curtain"><span>M</span></div>
 
   <header class="site-header">
-    <a class="brand" href="index.html">
-      <span class="brand-dot"></span>
-      <span>Moaaz<span class="muted">/</span>01</span>
-    </a>
-    <div class="header-tools">
-      <button class="tool" id="langBtn" aria-label="Language">AR</button>
-      <button class="tool theme-btn" id="themeBtn" aria-label="Theme">◐</button><button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
-    </div>
-  </header>
+  <a class="brand" href="index.html" aria-label="Moaaz Tamer home"><span class="brand-mark">M</span><span>Moaaz Tamer</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
+    <a href="projects.html" data-page="projects" data-i18n="navProjects">Projects</a>
+    <a href="about.html" data-page="about" data-i18n="navAbout">About</a>
+    <a href="contact.html" data-page="contact" data-i18n="navContact">Contact</a>
+    <a href="skills.html" data-page="skills" data-i18n="navSkills">Skills</a>
+    <a href="admin.html" data-page="dashboard" data-i18n="navDashboard">Dashboard</a>
+  </nav>
+  <div class="header-actions"><div data-auth-slot class="auth-slot"></div>
+    <button class="icon-btn" id="langBtn" type="button" aria-label="Switch language">AR</button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme"><span>◐</span></button>
+    <button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</header>
 
   <main class="admin-auth-main section-pad">
     <div class="auth-shell">
