@@ -32,7 +32,7 @@
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));
     document.querySelectorAll('#langBtn,#mobileLangBtn').forEach(b=>b.textContent=lang==='en'?'AR':'EN');
     document.title = lang==='en' ? 'Moaaz Tamer — Full Stack Developer & Web Creator' : 'معاذ تامر — مطور Full Stack وصانع تجارب ويب';
-    document.querySelectorAll('.desktop-nav a,.mobile-menu nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===document.body.dataset.page));
+    document.querySelectorAll('.desktop-nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===document.body.dataset.page));
     renderAll();
   }
   function renderSkills(){
@@ -63,11 +63,60 @@
     const form=document.getElementById('messageForm'); if(!form||form.dataset.bound)return;form.dataset.bound='1';
     form.addEventListener('submit',async e=>{e.preventDefault();const status=document.getElementById('messageStatus');const name=document.getElementById('contactName').value.trim(),email=document.getElementById('contactEmail').value.trim(),message=document.getElementById('contactMessage').value.trim();if(!name||!email||!message){status.textContent=t('messageRequired');return;}try{await window.MOAAZ_AUTH?.ready;const user=window.MOAAZ_AUTH?.auth?.currentUser;if(!user){status.innerHTML=`${t('signedOut')} <a href="login.html">${lang==='en'?'Sign in ↗':'تسجيل الدخول ↗'}</a>`;return;}await window.MOAAZ_AUTH.sendMessage(`Name: ${name}\nEmail: ${email}\n\n${message}`);form.reset();status.textContent=t('sent');}catch(err){status.textContent=window.MOAAZ_AUTH?.authErrorMessage?.(err)||t('formError');}});
   }
-  function openMenu(open){const m=document.getElementById('mobileMenu'),b=document.getElementById('mobileMenuBtn');if(!m||!b)return;m.classList.toggle('open',open);m.setAttribute('aria-hidden',String(!open));b.classList.toggle('open',open);b.setAttribute('aria-expanded',String(open));document.body.classList.toggle('menu-open',open)}
+  function initMobileMenu(){
+    const btn=document.getElementById('mobileMenuBtn');
+    if(!btn || btn.dataset.bound) return;
+    btn.dataset.bound='1';
+
+    let menu=document.getElementById('mobileMenu');
+    if(!menu){ menu=document.createElement('nav'); document.body.appendChild(menu); }
+    menu.className='mobile-menu';
+    menu.setAttribute('aria-hidden','true');
+    const links=[
+      ['index.html','navHome','01'],
+      ['projects.html','navProjects','02'],
+      ['skills.html','navSkills','03'],
+      ['about.html','navAbout','04'],
+      ['contact.html','navContact','05'],
+      ['admin.html','navDashboard','06']
+    ];
+    menu.innerHTML=links.map(([href,key,n])=>`<a href="${href}"><span data-i18n="${key}">${t(key)}</span><span>${n}</span></a>`).join('');
+
+    let backdrop=document.getElementById('mobileMenuBackdrop');
+    if(!backdrop){
+      backdrop=document.createElement('div');
+      backdrop.id='mobileMenuBackdrop';
+      backdrop.className='mobile-menu-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    const sync=()=>{
+      const open=btn.getAttribute('aria-expanded')==='true';
+      menu.classList.toggle('is-open',open);
+      backdrop.classList.toggle('is-open',open);
+      menu.setAttribute('aria-hidden',String(!open));
+      btn.classList.toggle('open',open);
+      btn.setAttribute('aria-label',open?(lang==='en'?'Close menu':'إغلاق القائمة'):(lang==='en'?'Open menu':'فتح القائمة'));
+      document.documentElement.classList.toggle('mobile-menu-open',open);
+      const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+      menu.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===current));
+    };
+    const close=()=>{btn.setAttribute('aria-expanded','false');sync()};
+    btn.addEventListener('click',()=>{btn.setAttribute('aria-expanded',btn.getAttribute('aria-expanded')!=='true'?'true':'false');sync()});
+    backdrop.addEventListener('click',close);
+    menu.addEventListener('click',e=>{if(e.target.closest('a'))close()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+    window.addEventListener('moaaz:language',()=>{
+      menu.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(el.firstElementChild)el.firstElementChild.textContent=t(key)});
+      sync();
+    });
+    sync();
+  }
+
   function bindUI(){
+    initMobileMenu();
     document.getElementById('themeBtn')?.addEventListener('click',()=>setTheme(theme==='dark'?'light':'dark'));document.getElementById('mobileThemeBtn')?.addEventListener('click',()=>setTheme(theme==='dark'?'light':'dark'));
     document.getElementById('langBtn')?.addEventListener('click',()=>{lang=lang==='en'?'ar':'en';localStorage.setItem('moaaz-language',lang);applyLang()});document.getElementById('mobileLangBtn')?.addEventListener('click',()=>{lang=lang==='en'?'ar':'en';localStorage.setItem('moaaz-language',lang);applyLang()});
-    document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>openMenu(!document.getElementById('mobileMenu')?.classList.contains('open')));document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>openMenu(false)));document.addEventListener('keydown',e=>{if(e.key==='Escape')openMenu(false)});document.addEventListener('click',e=>{const m=document.getElementById('mobileMenu'),b=document.getElementById('mobileMenuBtn');if(m?.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target))openMenu(false)});
     document.getElementById('searchInput')?.addEventListener('input',renderProjects);bindForm();
   }
   function observeReveal(){const els=document.querySelectorAll('.reveal:not(.is-visible)');if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('is-visible'));return;}const io=new IntersectionObserver(entries=>entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('is-visible');io.unobserve(en.target)}}),{threshold:.12});els.forEach(e=>io.observe(e));}

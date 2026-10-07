@@ -1,8 +1,8 @@
 (() => {
   const configured = !!(window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.apiKey && !String(window.FIREBASE_CONFIG.apiKey).startsWith('YOUR_'));
   const labels = {
-    en: {login:'Sign in',account:'Account',logout:'Sign out',messages:'Messages',notifications:'Notifications',admin:'Dashboard',loginRequired:'Please sign in to continue.',firebaseMissing:'Firebase is not configured yet.',email:'Email',password:'Password',google:'Continue with Google',emailLogin:'Continue with email',register:'Create account',name:'Name',send:'Send',message:'Message',reply:'Reply',close:'Close',markRead:'Mark read',noMessages:'No messages yet.',replyFromAdmin:'Admin reply',userMessage:'Your message',sent:'Sent',bell:'Notifications',invalid:'Please check your details.',adminLogin:'Admin sign in',adminOnly:'This area is restricted to the authorized administrator.',accessDenied:'This account is not authorized for the dashboard.',access:'Access',adminPanel:'ADMIN PANEL',newIdentity:'New identity',or:'OR',createOne:'Create one',backLogin:'Back to sign in',signInHint:'Sign in to keep your messages, admin replies and notifications in one place.',registerHint:'Create an account so your messages and admin replies stay with you.',requiredField:'This field is required.',authError:'Something went wrong. Please try again.',invalidCredentials:'The email or password is incorrect.',emailInUse:'This email is already in use.',weakPassword:'Password must be at least 6 characters.',popupClosed:'The sign-in window was closed.',networkError:'A network error occurred. Please try again.',downloadLoginRequired:'Please sign in to download this project.',downloads:'Downloads'},
-    ar: {login:'تسجيل الدخول',account:'حسابي',logout:'تسجيل الخروج',messages:'الرسائل',notifications:'الإشعارات',admin:'لوحة الإدارة',loginRequired:'سجّل دخولك للمتابعة.',firebaseMissing:'فايربيس غير مُعد بعد.',email:'البريد الإلكتروني',password:'كلمة المرور',google:'المتابعة باستخدام جوجل',emailLogin:'المتابعة بالبريد الإلكتروني',register:'إنشاء حساب',name:'الاسم',send:'إرسال',message:'الرسالة',reply:'رد',close:'إغلاق',markRead:'تحديد كمقروء',noMessages:'لا توجد رسائل بعد.',replyFromAdmin:'رد الإدارة',userMessage:'رسالتك',sent:'تم الإرسال',bell:'الإشعارات',invalid:'راجع بياناتك.',adminLogin:'دخول الإدارة',adminOnly:'هذه المنطقة مخصصة لحساب الإدارة المصرح له فقط.',accessDenied:'هذا الحساب غير مصرح له بدخول لوحة الإدارة.',access:'دخول',adminPanel:'لوحة الإدارة',newIdentity:'حساب جديد',or:'أو',createOne:'أنشئ حسابك',backLogin:'العودة لتسجيل الدخول',signInHint:'سجّل دخولك علشان تتابع رسائلك وردود الإدارة وإشعاراتك في مكان واحد.',registerHint:'أنشئ حسابك علشان رسائلك وردود الإدارة تفضل محفوظة عندك.',requiredField:'الحقل ده مطلوب.',authError:'حصل خطأ. جرّب مرة تانية.',invalidCredentials:'البريد الإلكتروني أو كلمة المرور غير صحيحة.',emailInUse:'البريد الإلكتروني ده مستخدم بالفعل.',weakPassword:'كلمة المرور لازم تكون 6 أحرف على الأقل.',popupClosed:'تم إغلاق نافذة تسجيل الدخول.',networkError:'حصلت مشكلة في الاتصال. جرّب مرة تانية.',downloadLoginRequired:'سجّل دخولك لتحميل المشروع.',downloads:'التحميلات'}
+    en: {login:'Sign in',account:'Account',logout:'Sign out',messages:'Messages',notifications:'Notifications',admin:'Dashboard',loginRequired:'Please sign in to continue.',firebaseMissing:'Firebase is not configured yet.',email:'Email',password:'Password',google:'Continue with Google',emailLogin:'Continue with email',register:'Create account',name:'Name',send:'Send',message:'Message',reply:'Reply',close:'Close',markRead:'Mark read',noMessages:'No messages yet.',replyFromAdmin:'Admin reply',userMessage:'Your message',sent:'Sent',bell:'Notifications',invalid:'Please check your details.',adminLogin:'Admin sign in',adminOnly:'This area is restricted to the authorized administrator.',accessDenied:'This account is not authorized for the dashboard.',access:'Access',adminPanel:'ADMIN PANEL',newIdentity:'New identity',or:'OR',createOne:'Create one',backLogin:'Back to sign in',signInHint:'Sign in to keep your messages, admin replies and notifications in one place.',registerHint:'Create an account so your messages and admin replies stay with you.',requiredField:'This field is required.',authError:'Something went wrong. Please try again.',invalidCredentials:'The email or password is incorrect.',emailInUse:'This email is already in use.',weakPassword:'Password must be at least 6 characters.',popupClosed:'The sign-in window was closed.',networkError:'A network error occurred. Please try again.'},
+    ar: {login:'تسجيل الدخول',account:'حسابي',logout:'تسجيل الخروج',messages:'الرسائل',notifications:'الإشعارات',admin:'لوحة الإدارة',loginRequired:'سجّل دخولك للمتابعة.',firebaseMissing:'فايربيس غير مُعد بعد.',email:'البريد الإلكتروني',password:'كلمة المرور',google:'المتابعة باستخدام جوجل',emailLogin:'المتابعة بالبريد الإلكتروني',register:'إنشاء حساب',name:'الاسم',send:'إرسال',message:'الرسالة',reply:'رد',close:'إغلاق',markRead:'تحديد كمقروء',noMessages:'لا توجد رسائل بعد.',replyFromAdmin:'رد الإدارة',userMessage:'رسالتك',sent:'تم الإرسال',bell:'الإشعارات',invalid:'راجع بياناتك.',adminLogin:'دخول الإدارة',adminOnly:'هذه المنطقة مخصصة لحساب الإدارة المصرح له فقط.',accessDenied:'هذا الحساب غير مصرح له بدخول لوحة الإدارة.',access:'دخول',adminPanel:'لوحة الإدارة',newIdentity:'حساب جديد',or:'أو',createOne:'أنشئ حسابك',backLogin:'العودة لتسجيل الدخول',signInHint:'سجّل دخولك علشان تتابع رسائلك وردود الإدارة وإشعاراتك في مكان واحد.',registerHint:'أنشئ حسابك علشان رسائلك وردود الإدارة تفضل محفوظة عندك.',requiredField:'الحقل ده مطلوب.',authError:'حصل خطأ. جرّب مرة تانية.',invalidCredentials:'البريد الإلكتروني أو كلمة المرور غير صحيحة.',emailInUse:'البريد الإلكتروني ده مستخدم بالفعل.',weakPassword:'كلمة المرور لازم تكون 6 أحرف على الأقل.',popupClosed:'تم إغلاق نافذة تسجيل الدخول.',networkError:'حصلت مشكلة في الاتصال. جرّب مرة تانية.'}
   };
   const t = k => (labels[document.documentElement.lang] || labels.en)[k] || k;
   let db = null, auth = null, provider = null;
@@ -251,39 +251,6 @@
     }
     return messageRef;
   }
-  async function recordDownload(projectId){
-    await ready;
-    if(!db) {
-      const err=new Error('FIREBASE_NOT_CONFIGURED');
-      err.code='FIREBASE_NOT_CONFIGURED';
-      throw err;
-    }
-    if(!auth?.currentUser){
-      const err=new Error('AUTH_REQUIRED');
-      err.code='AUTH_REQUIRED';
-      throw err;
-    }
-    const ref=db.collection('projects').doc(projectId);
-    const downloadRef=db.collection('downloads').doc();
-    try {
-      let nextCount=null;
-      await db.runTransaction(async tx=>{
-        const snap=await tx.get(ref);
-        if(!snap.exists || snap.data().published !== true) throw new Error('PROJECT_NOT_AVAILABLE');
-        const current=Number(snap.data().downloadCount||0);
-        nextCount=current+1;
-        const userId=auth?.currentUser?.uid||null;
-        tx.update(ref,{downloadCount:nextCount,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
-        tx.set(downloadRef,{projectId,userId,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-      });
-      window.dispatchEvent(new CustomEvent('moaaz:download-count',{detail:{projectId,count:nextCount}}));
-      return nextCount;
-    } catch(e){
-      console.warn('download counter',e);
-      if(e?.code==='AUTH_REQUIRED' || e?.code==='FIREBASE_NOT_CONFIGURED') throw e;
-      return null;
-    }
-  }
   function handleProtectedPages(user){
     const page=document.body?.dataset?.protected;
     if(page==='admin'){
@@ -296,22 +263,10 @@
     const code=String(err?.code||'');
     const map={
       'auth/invalid-credential':'invalidCredentials','auth/invalid-login-credentials':'invalidCredentials','auth/wrong-password':'invalidCredentials','auth/user-not-found':'invalidCredentials',
-      'auth/email-already-in-use':'emailInUse','auth/weak-password':'weakPassword','auth/popup-closed-by-user':'popupClosed','auth/network-request-failed':'networkError','AUTH_REQUIRED':'downloadLoginRequired','FIREBASE_NOT_CONFIGURED':'firebaseMissing'
+      'auth/email-already-in-use':'emailInUse','auth/weak-password':'weakPassword','auth/popup-closed-by-user':'popupClosed','auth/network-request-failed':'networkError','FIREBASE_NOT_CONFIGURED':'firebaseMissing'
     };
     return t(map[code]||'authError');
   }
-  function showDownloadAuthToast(){
-    const toast=ensureLiveToast();
-    const ar=document.documentElement.lang==='ar';
-    toast.querySelector('.moaaz-toast-icon').textContent='🔒';
-    toast.querySelector('.moaaz-toast-copy b').textContent=ar?'تسجيل الدخول مطلوب':'Sign in required';
-    toast.querySelector('.moaaz-toast-copy small').textContent=ar?'سجّل دخولك لتحميل المشروع.':'Please sign in to download this project.';
-    toast.classList.toggle('is-ar',ar);
-    toast.classList.add('show');
-    clearTimeout(showDownloadAuthToast.timer);
-    showDownloadAuthToast.timer=setTimeout(()=>toast.classList.remove('show'),5000);
-  }
-
   function getAuthReturnUrl(){
     const raw=new URLSearchParams(location.search).get('returnTo');
     if(!raw)return 'account.html';
@@ -456,7 +411,7 @@
     };
   }
 
-  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,showDownloadAuthToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,deleteAdminReply,deleteUserMessage,recordDownload,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
+  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,deleteAdminReply,deleteUserMessage,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
 
   document.addEventListener('DOMContentLoaded',()=>{
     if(document.getElementById('loginPanel')){ready.then(()=>bindLoginPage());}

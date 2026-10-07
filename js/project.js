@@ -16,22 +16,6 @@
     }catch(e){console.warn('project remote',e)}
   }
 
-  let liveStarted=false;
-  async function startLive(){
-    if(liveStarted||!window.MOAAZ_AUTH)return;
-    await window.MOAAZ_AUTH.ready;
-    if(liveStarted||!window.MOAAZ_AUTH?.db)return;
-    const db=window.MOAAZ_AUTH.db;
-    liveStarted=true;
-    db.collection('projects').doc(id).onSnapshot(s=>{
-      if(!s.exists)return;
-      p={...p,...s.data()};
-      applyDisplayName();
-      const stats=root.querySelector('.detail-stats');
-      if(stats)stats.innerHTML=`<span>↓ ${Number(p.downloadCount||0)} ${window.MOAazT('downloads')}</span>`;
-    },err=>console.warn('project live',err));
-  }
-
   async function render(){
     await remote();
     applyDisplayName();
@@ -44,6 +28,5 @@
   function bind(){}
 
   render();
-  startLive();
   window.addEventListener('moaaz:language',render);
 })();
