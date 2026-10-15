@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html data-theme="light" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>LAVÉRA — Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;family=Cairo:wght@400;500;600;700;800&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<link href="../css/lavera-premium.css" rel="stylesheet"/>
+<link href="../css/lavera-fresh.css" rel="stylesheet"/>
+<link href="../css/lavera-themes.css" rel="stylesheet"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body class="dashboard-body" data-title-ar="LAVÉRA — لوحة التحكم" data-title-en="LAVÉRA — Dashboard">
+<div aria-hidden="true" class="lavera-initial-loader" id="laveraInitialLoader">
+<div class="lavera-initial-loader__grain"></div>
+<div class="lavera-initial-loader__halo"></div>
+<div class="lavera-initial-loader__ring lavera-initial-loader__ring--1"></div>
+<div class="lavera-initial-loader__ring lavera-initial-loader__ring--2"></div>
+<div class="lavera-initial-loader__content">
+<div class="lavera-initial-loader__kicker">EST. 2026 <span>•</span> DIGITAL ATELIER</div>
+<div class="lavera-initial-loader__brand">LAVÉRA</div>
+<div class="lavera-initial-loader__line"><i></i></div>
+<div class="lavera-initial-loader__counter"><strong id="laveraInitialPercent">01</strong><span>%</span></div>
+<div class="lavera-initial-loader__status" data-ar="PREPARING EXPERIENCE" data-en="PREPARING EXPERIENCE" id="laveraInitialStatus">PREPARING EXPERIENCE</div>
+</div>
+<div class="lavera-initial-loader__corner lavera-initial-loader__corner--tl"></div>
+<div class="lavera-initial-loader__corner lavera-initial-loader__corner--br"></div>
+</div>
+<div class="dashboard-shell">
+<aside class="dashboard-sidebar" id="dashboardSidebar">
+<div class="dash-brand">
+<span>LAVÉRA</span>
+<small data-ar="CONTROL ROOM" data-en="CONTROL ROOM">CONTROL ROOM</small>
+</div>
+<nav class="dash-nav">
+<a class="active" data-section="overview" href="#overview">
+<b data-ar="نظرة عامة" data-en="Overview">نظرة عامة</b>
+</a>
+<a data-section="products" href="#products">
+<b data-ar="المنتجات" data-en="Products">المنتجات</b>
+</a>
+<a data-section="orders" href="#orders">
+<b data-ar="الطلبات" data-en="Orders">الطلبات</b>
+</a>
+<a data-section="messages" href="#messages">
+<b data-ar="الرسائل" data-en="Messages">الرسائل</b>
+<span class="nav-badge" hidden="" id="messageBadge">0</span>
+</a>
+<a data-section="customers" href="#customers">
+<b data-ar="العملاء" data-en="Customers">العملاء</b>
+<span class="nav-badge" hidden="" id="customerBadge">0</span>
+</a>
+<a data-section="chats" href="#chats">
+<b data-ar="الشات المباشر" data-en="Live Chat">الشات المباشر</b>
+<span class="nav-badge" hidden="" id="chatBadge">0</span>
+</a>
+<a data-section="reviews" href="#reviews">
+<b data-ar="التقييمات" data-en="Reviews">التقييمات</b>
+<span class="nav-badge" hidden="" id="reviewBadge">0</span>
+</a>
+<a data-section="finance" href="#finance">
+<b data-ar="المالية والتحليلات" data-en="Finance &amp; Analytics">
+          المالية والتحليلات
+        </b>
+</a>
+<a data-section="inventory" href="#inventory">
+<b data-ar="المخزون" data-en="Inventory">المخزون</b>
+</a>
+</nav>
+<div class="dash-side-bottom">
+<button class="btn btn-outline" data-ar="تسجيل الخروج" data-en="Sign out" id="logoutBtn">
+        تسجيل الخروج
+      </button>
+</div>
+</aside>
+<div class="dashboard-main">
+<header class="dash-header">
+<div class="dash-head-left">
+<button class="dash-menu" id="dashMenu">☰</button>
+<div>
+<span class="eyebrow">LAVÉRA</span>
+<h1 data-ar="نظرة عامة" data-en="Overview" id="dashTitle">نظرة عامة</h1>
+</div>
+</div>
+<div class="dash-actions">
+<button class="icon-btn" id="themeBtn">☾</button>
+<button class="lang-btn" id="langBtn">EN</button>
+<div class="admin-avatar">A</div>
+</div>
+</header>
+<main class="dash-content">
+<!-- OVERVIEW -->
+<section class="dash-section active" id="section-overview">
+<div class="welcome-row">
+<div>
+<span class="eyebrow" data-ar="غرفة التحكم" data-en="CONTROL ROOM">
+              غرفة التحكم
+            </span>
+<h2 data-ar="مساء الخير 👋" data-en="Good evening 👋">
+              مساء الخير 👋
+            </h2>
+<p class="muted" data-ar="إدارة فاخرة وذكية لمتجر LAVÉRA من مكان واحد." data-en="A refined command center for your LAVÉRA store.">
+              إدارة فاخرة وذكية لمتجر LAVÉRA من مكان واحد.
+            </p>
+</div>
+<button class="btn" data-ar="+ إضافة منتج" data-en="+ Add product" data-open-product="">
+            + إضافة منتج
+          </button>
+</div>
+<div class="stats-grid">
+<article class="stat-card stat-feature">
+<span data-ar="إيرادات السنة" data-en="Annual revenue">
+              إيرادات السنة
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="annualRevenueOverview">0 EGP</strong>
+<em data-ar="الطلبات المدفوعة" data-en="Paid orders">
+              الطلبات المدفوعة
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="صافي السنة" data-en="Annual net">
+              صافي السنة
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="annualNetOverview">0 EGP</strong>
+<em data-ar="بعد المصروفات" data-en="After expenses">
+              بعد المصروفات
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="الطلبات" data-en="Orders">الطلبات</span>
+<strong id="statOrders">0</strong>
+<em data-ar="كل الطلبات" data-en="All orders">
+              كل الطلبات
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="طلبات قيد المراجعة" data-en="Pending orders">
+              طلبات قيد المراجعة
+            </span>
+<strong id="statPending">0</strong>
+<em data-ar="تحتاج متابعة" data-en="Needs attention">
+              تحتاج متابعة
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="الرسائل" data-en="Messages">الرسائل</span>
+<strong id="statMessages">0</strong>
+<em data-ar="غير مقروءة" data-en="Unread">
+              غير مقروءة
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="المنتجات" data-en="Products">المنتجات</span>
+<strong id="statProducts">0</strong>
+<em data-ar="منتج نشط" data-en="Active products">
+              منتج نشط
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="مخزون منخفض" data-en="Low stock">
+              مخزون منخفض
+            </span>
+<strong id="statLow">0</strong>
+<em data-ar="يحتاج مراجعة" data-en="Needs review">
+              يحتاج مراجعة
+            </em>
+</article>
+<article class="stat-card">
+<span data-ar="مدفوعات معلقة" data-en="Unpaid orders">
+              مدفوعات معلقة
+            </span>
+<strong id="statUnpaid">0</strong>
+<em data-ar="تحقق من التحويل" data-en="Verify transfer">
+              تحقق من التحويل
+            </em>
+</article>
+</div>
+<div class="dash-grid-two">
+<article class="dash-panel">
+<div class="panel-head">
+<div>
+<span class="eyebrow" data-ar="التنبيهات" data-en="ALERTS">
+                  التنبيهات
+                </span>
+<h3 data-ar="مركز التنبيهات" data-en="Notification center">
+                  مركز التنبيهات
+                </h3>
+</div>
+</div>
+<div class="notification-list" id="notificationList"></div>
+</article>
+<article class="dash-panel">
+<div class="panel-head">
+<div>
+<span class="eyebrow" data-ar="الأداء" data-en="PERFORMANCE">
+                  الأداء
+                </span>
+<h3 data-ar="أفضل المنتجات" data-en="Best selling products">
+                  أفضل المنتجات
+                </h3>
+</div>
+</div>
+<div class="ranking-list" id="bestProducts"></div>
+</article>
+</div>
+</section>
+<!-- PRODUCTS -->
+<section class="dash-section" id="section-products">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="CATALOG" data-en="CATALOG">
+              CATALOG
+            </span>
+<h2 data-ar="إدارة المنتجات" data-en="Product management">
+              إدارة المنتجات
+            </h2>
+<p class="muted" data-ar="أضف وعدّل واحذف المنتجات، الصور، الألوان، المقاسات والمخزون." data-en="Manage products, galleries, variants and inventory.">
+              أضف وعدّل واحذف المنتجات، الصور، الألوان، المقاسات والمخزون.
+            </p>
+</div>
+<button class="btn" data-ar="+ إضافة منتج جديد" data-en="+ Add new product" data-open-product="">
+            + إضافة منتج جديد
+          </button>
+</div>
+<div class="product-tools">
+<input data-placeholder-ar="ابحث باسم المنتج..." data-placeholder-en="Search products..." id="productSearch" placeholder="ابحث باسم المنتج..."/>
+<select id="productFilter">
+<option data-ar="كل الفئات" data-en="All categories" value="all">
+              كل الفئات
+            </option>
+<option data-ar="أطقم" data-en="Sets" value="sets">
+              أطقم
+            </option>
+<option data-ar="لانجري" data-en="Lingerie" value="lingerie">
+              لانجري
+            </option>
+<option data-ar="منزلية" data-en="Loungewear" value="lounge">
+              منزلية
+            </option>
+</select>
+</div>
+<div class="table-wrap">
+<table class="product-table">
+<thead>
+<tr>
+<th data-ar="المنتج" data-en="Product">
+                  المنتج
+                </th>
+<th data-ar="السعر" data-en="Price">
+                  السعر
+                </th>
+<th data-ar="الألوان" data-en="Colors">
+                  الألوان
+                </th>
+<th data-ar="المقاسات" data-en="Sizes">
+                  المقاسات
+                </th>
+<th data-ar="المخزون" data-en="Stock">
+                  المخزون
+                </th>
+<th data-ar="الحالة" data-en="Status">
+                  الحالة
+                </th>
+<th></th>
+</tr>
+</thead>
+<tbody id="productsTable"></tbody>
+</table>
+</div>
+</section>
+<!-- ORDERS -->
+<section class="dash-section" id="section-orders">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="ORDERS" data-en="ORDERS">ORDERS</span>
+<h2 data-ar="إدارة الطلبات" data-en="Order management">
+              إدارة الطلبات
+            </h2>
+<p class="muted" data-ar="تابع الطلبات، تحقق من الدفع وغيّر مراحل التنفيذ." data-en="Review orders, verify payments and update fulfillment stages.">
+              تابع الطلبات، تحقق من الدفع وغيّر مراحل التنفيذ.
+            </p>
+</div>
+<div class="toolbar-actions">
+<button class="btn btn-outline small-btn" data-ar="استعراض الطلبات" data-en="Explore orders" id="exploreOrders">
+              استعراض الطلبات
+            </button>
+<button class="btn btn-outline small-btn" onclick="renderOrders()" type="button">
+              ↻
+              <span data-ar="تحديث" data-en="Refresh">
+                تحديث
+              </span>
+</button>
+</div>
+</div>
+<div id="ordersList"></div>
+</section>
+<!-- MESSAGES -->
+<section class="dash-section" id="section-messages">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="INBOX" data-en="INBOX">INBOX</span>
+<h2 data-ar="رسائل الزوار" data-en="Visitor messages">
+              رسائل الزوار
+            </h2>
+<p class="muted" data-ar="كل رسالة من نموذج التواصل تظهر هنا مع عداد للرسائل غير المقروءة." data-en="Every contact message appears here with an unread counter.">
+              كل رسالة من نموذج التواصل تظهر هنا مع عداد للرسائل غير المقروءة.
+            </p>
+</div>
+<button class="btn btn-outline small-btn" onclick="renderMessages()" type="button">
+            ↻
+            <span data-ar="تحديث" data-en="Refresh">
+              تحديث
+            </span>
+</button>
+</div>
+<div id="messagesList"></div>
+</section>
+<section class="dash-section" id="section-customers">
+<div class="section-toolbar"><div><span class="eyebrow">ACCOUNTS</span><h2 data-ar="حسابات العملاء" data-en="Customer accounts">حسابات العملاء</h2><p class="muted" data-ar="كل حساب جديد يتسجل في الموقع يظهر هنا لحظيًا." data-en="Every new account appears here live.">كل حساب جديد يتسجل في الموقع يظهر هنا لحظيًا.</p></div><input id="customerSearch" class="lv-search" placeholder="بحث / Search"></div>
+<div id="customersList"></div>
+</section>
+<section class="dash-section" id="section-chats">
+<div class="section-toolbar"><div><span class="eyebrow">LIVE CHAT</span><h2 data-ar="الشات المباشر" data-en="Live chat">الشات المباشر</h2></div></div>
+<div class="lv-admin-chat"><aside><input id="chatSearch" class="lv-search" placeholder="بحث / Search"><div id="chatConvList"></div></aside>
+<div class="lv-admin-main"><div id="chatAdminHead" class="lv-admin-head"><span class="muted">اختاري محادثة · Select a conversation</span></div><div id="chatAdminThread" class="lv-thread"></div><form id="chatAdminForm" hidden><input maxlength="1000" autocomplete="off" placeholder="اكتب ردك… / Type a reply…"><button class="btn" type="submit">↗</button></form></div></div>
+</section>
+<!-- REVIEWS -->
+<section class="dash-section" id="section-reviews">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="SOCIAL PROOF" data-en="SOCIAL PROOF">SOCIAL PROOF</span>
+<h2 data-ar="مراجعة التقييمات" data-en="Review moderation">
+              مراجعة التقييمات
+            </h2>
+<p class="muted" data-ar="راجع تقييمات العميلات قبل نشرها على صفحات المنتجات." data-en="Approve customer reviews before they appear publicly.">
+              راجع تقييمات العميلات قبل نشرها على صفحات المنتجات.
+            </p>
+</div>
+<button class="btn btn-outline small-btn" onclick="renderReviewsAdmin()" type="button">
+            ↻
+            <span data-ar="تحديث" data-en="Refresh">
+              تحديث
+            </span>
+</button>
+</div>
+<div id="reviewsAdminList"></div>
+</section>
+<!-- FINANCE -->
+<section class="dash-section" id="section-finance">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="FINANCE" data-en="FINANCE">
+              FINANCE
+            </span>
+<h2 data-ar="المالية والتحليلات" data-en="Finance &amp; analytics">
+              المالية والتحليلات
+            </h2>
+<p class="muted" data-ar="الإيرادات تُحسب من الطلبات المدفوعة، والمصروفات تسجلها أنت، وصافي الربح = الإيرادات − المصروفات." data-en="Revenue comes from paid orders; expenses are recorded by you; net profit = revenue − expenses.">
+              الإيرادات تُحسب من الطلبات المدفوعة، والمصروفات تسجلها أنت، وصافي الربح = الإيرادات − المصروفات.
+            </p>
+</div>
+<div class="toolbar-actions">
+<button class="btn btn-outline small-btn" data-ar="استعراض المصروفات" data-en="Explore expenses" id="exploreExpenses">
+              استعراض المصروفات
+            </button>
+<button class="btn small-btn" data-ar="+ إضافة مصروف" data-en="+ Add expense" id="openExpense">
+              + إضافة مصروف
+            </button>
+</div>
+</div>
+<div class="finance-cards">
+<article>
+<span data-ar="إيرادات السنة" data-en="Annual revenue">
+              إيرادات السنة
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="annualRevenue">0 EGP</strong>
+</article>
+<article>
+<span data-ar="إيرادات آخر 6 شهور" data-en="Last 6 months revenue">
+              إيرادات آخر 6 شهور
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="sixRevenue">0 EGP</strong>
+</article>
+<article>
+<span data-ar="مصروفات السنة" data-en="Annual expenses">
+              مصروفات السنة
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="annualExpenses">0 EGP</strong>
+</article>
+<article>
+<span data-ar="مصروفات آخر 6 شهور" data-en="Last 6 months expenses">
+              مصروفات آخر 6 شهور
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="sixExpenses">0 EGP</strong>
+</article>
+<article class="net">
+<span data-ar="صافي السنة" data-en="Annual net">
+              صافي السنة
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="annualNet">0 EGP</strong>
+</article>
+<article class="net">
+<span data-ar="صافي آخر 6 شهور" data-en="Last 6 months net">
+              صافي آخر 6 شهور
+            </span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="sixNet">0 EGP</strong>
+</article>
+</div>
+<div class="dash-grid-two">
+<article class="dash-panel">
+<div class="panel-head">
+<div>
+<span class="eyebrow" data-ar="آخر 6 شهور" data-en="LAST 6 MONTHS">
+                  آخر 6 شهور
+                </span>
+<h3 data-ar="الإيرادات مقابل المصروفات" data-en="Revenue vs expenses">
+                  الإيرادات مقابل المصروفات
+                </h3>
+</div>
+</div>
+<div class="finance-chart" id="financeChart"></div>
+<div class="chart-legend">
+<span>
+<i class="revenue-dot"></i>
+<b data-ar="إيرادات" data-en="Revenue">
+                  إيرادات
+                </b>
+</span>
+<span>
+<i class="expense-dot"></i>
+<b data-ar="مصروفات" data-en="Expenses">
+                  مصروفات
+                </b>
+</span>
+</div>
+</article>
+<article class="dash-panel">
+<div class="panel-head">
+<div>
+<span class="eyebrow" data-ar="CUSTOMER INSIGHTS" data-en="CUSTOMER INSIGHTS">
+                  CUSTOMER INSIGHTS
+                </span>
+<h3 data-ar="ذكاء العملاء" data-en="Customer insights">
+                  ذكاء العملاء
+                </h3>
+</div>
+</div>
+<div class="insight-grid" id="customerInsights"></div>
+<div class="panel-head sub" data-ar="آخر المصروفات" data-en="Recent expenses">
+<h3 data-ar="آخر المصروفات" data-en="Recent expenses">
+                آخر المصروفات
+              </h3>
+</div>
+<div class="expenses-list" id="expensesList"></div>
+</article>
+</div>
+</section>
+<!-- INVENTORY -->
+<section class="dash-section" id="section-inventory">
+<div class="section-toolbar">
+<div>
+<span class="eyebrow" data-ar="STOCK" data-en="STOCK">STOCK</span>
+<h2 data-ar="المخزون" data-en="Inventory">
+              المخزون
+            </h2>
+<p class="muted" data-ar="كل لون ومقاس له كمية مستقلة مع تنبيهات المخزون المنخفض." data-en="Every variant has independent stock with low-stock alerts.">
+              كل لون ومقاس له كمية مستقلة مع تنبيهات المخزون المنخفض.
+            </p>
+</div>
+</div>
+<div class="inventory-cards" id="inventoryGrid"></div>
+</section>
+</main>
+</div>
+</div>
+<!-- DATA EXPLORER -->
+<div class="modal-backdrop" id="dataExplorerModal">
+<div class="data-explorer-modal">
+<button aria-label="Close" class="modal-close" data-ar="×" data-en="×" id="closeDataExplorer">
+      ×
+    </button>
+<div class="modal-head">
+<span class="eyebrow" data-ar="DATA ROOM" data-en="DATA ROOM" id="explorerEyebrow">
+        DATA ROOM
+      </span>
+<h2 data-ar="استعراض البيانات" data-en="Explore data" id="explorerTitle">
+        استعراض البيانات
+      </h2>
+<p class="muted" data-ar="كل البيانات متاحة داخل الموقع بشكل منظم ومناسب للموبايل." data-en="All data is available in an organized, mobile-friendly workspace." id="explorerSubtitle">
+        كل البيانات متاحة داخل الموقع بشكل منظم ومناسب للموبايل.
+      </p>
+</div>
+<div class="data-explorer-tools">
+<input data-placeholder-ar="ابحث داخل الجدول..." data-placeholder-en="Search this table..." id="explorerSearch" placeholder="ابحث داخل الجدول..."/>
+<span class="explorer-count" id="explorerCount"></span>
+</div>
+<div class="data-table-wrap" id="explorerTableWrap"></div>
+</div>
+</div>
+<!-- ORDER DETAILS -->
+<div class="modal-backdrop" id="orderDetailsModal">
+<div class="order-details-modal">
+<button aria-label="Close" class="modal-close" data-ar="×" data-en="×" id="closeOrderDetails">
+      ×
+    </button>
+<div id="orderDetailsContent"></div>
+</div>
+</div>
+<!-- EXPENSE MODAL -->
+<div class="modal-backdrop" id="expenseModal">
+<div class="product-modal expense-modal">
+<button class="modal-close" data-ar="×" data-en="×" id="closeExpense">
+      ×
+    </button>
+<div class="modal-head">
+<span class="eyebrow" data-ar="FINANCE ENTRY" data-en="FINANCE ENTRY">
+        FINANCE ENTRY
+      </span>
+<h2 data-ar="إضافة مصروف" data-en="Add expense">
+        إضافة مصروف
+      </h2>
+<p class="muted" data-ar="سجل تكلفة حقيقية لتظهر في صافي الربح والخسارة." data-en="Record a real business cost to calculate net profit or loss.">
+        سجل تكلفة حقيقية لتظهر في صافي الربح والخسارة.
+      </p>
+</div>
+<form id="expenseForm">
+<div class="form-grid">
+<label class="field">
+<span data-ar="اسم المصروف" data-en="Expense title">
+            اسم المصروف
+          </span>
+<input name="title" placeholder="إعلانات / مخزون / تغليف" required=""/>
+</label>
+<label class="field">
+<span data-ar="المبلغ (EGP)" data-en="Amount (EGP)">
+            المبلغ (EGP)
+          </span>
+<input min="0" name="amount" required="" step="0.01" type="number"/>
+</label>
+<label class="field">
+<span data-ar="التصنيف" data-en="Category">
+            التصنيف
+          </span>
+<select name="category">
+<option data-ar="Ads / إعلانات" data-en="Ads" value="Ads">
+              Ads / إعلانات
+            </option>
+<option data-ar="Inventory / مخزون" data-en="Inventory" value="Inventory">
+              Inventory / مخزون
+            </option>
+<option data-ar="Packaging / تغليف" data-en="Packaging" value="Packaging">
+              Packaging / تغليف
+            </option>
+<option data-ar="Shipping / شحن" data-en="Shipping" value="Shipping">
+              Shipping / شحن
+            </option>
+<option data-ar="Salaries / رواتب" data-en="Salaries" value="Salaries">
+              Salaries / رواتب
+            </option>
+<option data-ar="Other / أخرى" data-en="Other" value="Other">
+              Other / أخرى
+            </option>
+</select>
+</label>
+<label class="field">
+<span data-ar="التاريخ" data-en="Date">
+            التاريخ
+          </span>
+<input name="date" required="" type="date"/>
+</label>
+<label class="field field-wide">
+<span data-ar="ملاحظات" data-en="Notes">
+            ملاحظات
+          </span>
+<textarea name="notes" rows="3"></textarea>
+</label>
+</div>
+<div class="modal-actions">
+<button class="btn" data-ar="حفظ المصروف" data-en="Save expense" type="submit">
+          حفظ المصروف
+        </button>
+<button class="btn btn-outline" data-ar="إلغاء" data-en="Cancel" id="cancelExpense" type="button">
+          إلغاء
+        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- PRODUCT MODAL -->
+<div class="modal-backdrop" id="productModal">
+<div class="product-modal">
+<button class="modal-close" data-ar="×" data-en="×" id="closeProduct">
+      ×
+    </button>
+<div class="modal-head">
+<span class="eyebrow" data-ar="PRODUCT EDITOR" data-en="PRODUCT EDITOR">
+        PRODUCT EDITOR
+      </span>
+<h2 data-ar="إضافة منتج جديد" data-en="Add new product" id="modalTitle">
+        إضافة منتج جديد
+      </h2>
+<p class="muted" data-ar="تحكم كامل في بيانات المنتج والصور والـvariants والمخزون." data-en="Full control over product data, gallery, variants and inventory.">
+        تحكم كامل في بيانات المنتج والصور والـvariants والمخزون.
+      </p>
+</div>
+<form id="dashboardProductForm">
+<input name="id" type="hidden"/>
+<div class="form-grid">
+<label class="field">
+<span data-ar="اسم المنتج" data-en="Product name">
+            اسم المنتج
+          </span>
+<input name="name" required=""/>
+</label>
+<label class="field">
+<span data-ar="السعر (EGP)" data-en="Price (EGP)">
+            السعر (EGP)
+          </span>
+<input min="0" name="price" required="" type="number"/>
+</label>
+<label class="field">
+<span data-ar="الفئة" data-en="Category">
+            الفئة
+          </span>
+<select name="category">
+<option data-ar="أطقم / Sets" data-en="Sets" value="sets">
+              أطقم / Sets
+            </option>
+<option data-ar="لانجري / Lingerie" data-en="Lingerie" value="lingerie">
+              لانجري / Lingerie
+            </option>
+<option data-ar="منزلية / Loungewear" data-en="Loungewear" value="lounge">
+              منزلية / Loungewear
+            </option>
+</select>
+</label>
+<!-- الصورة فقط تم تغييرها -->
+<label class="field">
+<span data-ar="الصورة الرئيسية" data-en="Main image">
+            الصورة الرئيسية
+          </span>
+<input accept="image/*" name="image" type="file"/>
+</label>
+<label class="field field-wide">
+<span data-ar="معرض الصور — رابط لكل صورة في سطر" data-en="Image gallery — one URL per line">
+            معرض الصور — رابط لكل صورة في سطر
+          </span>
+<textarea name="images" placeholder="../Images/product-black.jpg
+../Images/product-champagne.jpg" rows="3"></textarea>
+</label>
+</div>
+<div class="modal-variants">
+<div class="modal-subhead">
+<div>
+<span class="option-label" data-ar="الألوان والمقاسات والمخزون" data-en="Colors, sizes &amp; stock">
+              الألوان والمقاسات والمخزون
+            </span>
+<small data-ar="أضف كل اختيار وحدد كميته." data-en="Add each variant and set its quantity.">
+              أضف كل اختيار وحدد كميته.
+            </small>
+</div>
+<button class="btn btn-outline small-btn" data-ar="+ إضافة اختيار" data-en="+ Add variant" id="modalAddVariant" type="button">
+            + إضافة اختيار
+          </button>
+</div>
+<div class="dash-variant-head">
+<span data-ar="اللون" data-en="Color">
+            اللون
+          </span>
+<span data-ar="المقاس" data-en="Size">
+            المقاس
+          </span>
+<span data-ar="الكمية" data-en="Qty">
+            الكمية
+          </span>
+<span></span>
+</div>
+<div id="modalVariants"></div>
+<div class="modal-total">
+<span data-ar="إجمالي المخزون" data-en="Total stock">
+            إجمالي المخزون
+          </span>
+<strong id="modalStockTotal">
+            0
+          </strong>
+</div>
+</div>
+<div class="modal-actions">
+<button class="btn" data-ar="حفظ المنتج" data-en="Save product" type="submit">
+          حفظ المنتج
+        </button>
+<button class="btn btn-outline" data-ar="إلغاء" data-en="Cancel" id="cancelProduct" type="button">
+          إلغاء
+        </button>
+</div>
+</form>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<script defer src="../lavera-i18n.js"></script>
+<script src="../js/app.js" type="module"></script>
+<script src="../lavera-sounds.js"></script>
+<script src="../js/lavera-2-features.js" type="module"></script><script src="../js/lavera-chat.js" type="module"></script><script defer src="../js/lavera-premium.js"></script><script defer src="../js/lavera-themes.js"></script></body>
+</html>

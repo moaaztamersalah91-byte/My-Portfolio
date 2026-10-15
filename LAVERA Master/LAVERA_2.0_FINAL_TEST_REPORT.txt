@@ -1,0 +1,34 @@
+LAVÉRA 2.0 — FINAL DEVELOPMENT TEST REPORT
+Date: 2026-09-11
+
+Implemented in this build:
+- Customer accounts with email/password + Google sign-in.
+- Admin login with email/password + Google sign-in.
+- Customer order tracking and dedicated customer-order.html page.
+- Customer notifications for order status changes and admin replies.
+- Customer <-> Admin two-way message replies.
+- Customer profile editing and saved addresses.
+- Recently viewed products.
+- Product recommendations.
+- Advanced shop search, stock and price filters.
+- Dashboard analytics card + CSV order export.
+- Existing wishlist, inventory sounds, admin bell, stock alarm and manual InstaPay flow preserved.
+- Dark mode controls on every HTML page, including new pages.
+- Arabic/English language controls on every HTML page, including new pages.
+- Google sign-in present on every page that contains a login flow.
+- Firestore notifications rules added; customer notification reads are limited to the owner.
+- Firestore customer messaging rules support customerReply/customerReplyAt only for the message owner.
+
+Automated checks:
+- 14 HTML pages discovered.
+- 0 missing static UI translations after audit.
+- 0 JavaScript syntax errors across all JS files.
+- 14/14 HTML pages have Dark Mode control.
+- 14/14 HTML pages have Language control.
+- Customer Account Google login: PASS.
+- Admin Login Google login: PASS.
+
+Notes:
+- Product names, customer-entered content, contact details, order numbers and numeric values are intentionally treated as data rather than translated UI labels.
+- Firebase/Auth/Firestore behavior still requires a live Firebase browser test with the real project configuration before production handoff.
+- No Cloud Functions or Blaze-only backend code was added.

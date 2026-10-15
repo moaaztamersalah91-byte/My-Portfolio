@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html data-theme="light" dir="rtl" lang="ar">
+<head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>LAVÉRA — الدفع الآمن</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&amp;family=Cairo:wght@400;500;600;700;800&amp;family=Outfit:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<link href="../css/lavera-premium.css" rel="stylesheet"/>
+<link href="../css/lavera-fresh.css" rel="stylesheet"/>
+<link href="../css/lavera-themes.css" rel="stylesheet"/>    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body data-title-ar="LAVÉRA — الدفع الآمن" data-title-en="LAVÉRA — Secure Payment">
+<div aria-hidden="true" class="lavera-initial-loader" id="laveraInitialLoader">
+<div class="lavera-initial-loader__grain"></div>
+<div class="lavera-initial-loader__halo"></div>
+<div class="lavera-initial-loader__ring lavera-initial-loader__ring--1"></div>
+<div class="lavera-initial-loader__ring lavera-initial-loader__ring--2"></div>
+<div class="lavera-initial-loader__content">
+<div class="lavera-initial-loader__kicker">EST. 2026 <span>•</span> DIGITAL ATELIER</div>
+<div class="lavera-initial-loader__brand">LAVÉRA</div>
+<div class="lavera-initial-loader__line"><i></i></div>
+<div class="lavera-initial-loader__counter"><strong id="laveraInitialPercent">01</strong><span>%</span></div>
+<div class="lavera-initial-loader__status" data-ar="PREPARING EXPERIENCE" data-en="PREPARING EXPERIENCE" id="laveraInitialStatus">PREPARING EXPERIENCE</div>
+</div>
+<div class="lavera-initial-loader__corner lavera-initial-loader__corner--tl"></div>
+<div class="lavera-initial-loader__corner lavera-initial-loader__corner--br"></div>
+</div>
+<header class="header"><a class="brand" href="../index.html"><span>LAVÉRA</span><small data-ar="EST. 2026" data-en="EST. 2026">EST. 2026</small></a>
+<nav><a data-ar="الرئيسية" data-en="Home" href="../index.html">الرئيسية</a><a data-ar="المتجر" data-en="Shop" href="shop.html">المتجر</a><a data-ar="قصتنا" data-en="Our Story" href="about.html">قصتنا</a><a data-ar="تواصل معنا" data-en="Contact" href="contact.html">تواصل معنا</a><a data-account-link="" data-ar="حسابي" data-en="Account" href="account.html">حسابي</a><a data-ar="لوحة التحكم" data-en="Dashboard" href="admin-login.html">لوحة التحكم</a></nav>
+<div class="actions"><button class="icon-btn menu-btn" id="menuBtn">☰</button><button class="icon-btn" id="themeBtn">☾</button><button class="lang-btn" id="langBtn">EN</button><a class="desktop-bag" href="cart.html"><span data-ar="حقيبة التسوق" data-en="Shopping bag">حقيبة التسوق</span><b>0</b></a></div>
+<div class="mobile-menu" id="mobileMenu"><a data-ar="الرئيسية" data-en="Home" href="../index.html">Home</a><a data-ar="المتجر" data-en="Shop" href="shop.html">Shop</a><a data-ar="قصتنا" data-en="Our Story" href="about.html">Our Story</a><a data-ar="تواصل معنا" data-en="Contact" href="contact.html">Contact</a><a data-ar="لوحة التحكم" data-en="Dashboard" href="admin-login.html">Dashboard</a></div></header>
+<main class="page payment-page" id="paymentPage">
+<div class="payment-head">
+<div>
+<span class="eyebrow" data-ar="INSTANT PAYMENT" data-en="INSTANT PAYMENT">INSTANT PAYMENT</span>
+<h1 data-ar="الدفع عبر InstaPay" data-en="Pay with InstaPay">الدفع عبر InstaPay</h1>
+<p data-ar="حوّلي قيمة الطلب إلى حساب InstaPay الخاص بالبائع، ثم أدخلي رقم/مرجع العملية لإرسال الطلب للمراجعة." data-en="Transfer the order total to the seller's InstaPay account, then enter the transfer reference to submit the order for review.">
+      حوّلي قيمة الطلب إلى حساب InstaPay الخاص بالبائع، ثم أدخلي رقم/مرجع العملية لإرسال الطلب للمراجعة.
+    </p>
+</div>
+<div class="secure-badge">✓ <span data-ar="InstaPay فقط" data-en="InstaPay only">InstaPay فقط</span></div>
+</div>
+<div class="payment-layout">
+<section class="payment-card">
+<h2 data-ar="إتمام الدفع" data-en="Complete payment">إتمام الدفع</h2>
+<div class="instapay-box">
+<div class="instapay-logo" data-ar="InstaPay" data-en="InstaPay">InstaPay</div>
+<p data-ar="حوّلي المبلغ التالي إلى InstaPay الخاص بالبائع:" data-en="Transfer the following amount to the seller's InstaPay:">
+      حوّلي المبلغ التالي إلى InstaPay الخاص بالبائع:
+    </p>
+<div class="instapay-amount" data-ar="0 EGP" data-en="0 EGP" id="instapayAmount">0 EGP</div>
+<div class="ipa-row">
+<div>
+<small data-ar="InstaPay IPA للبائع" data-en="Seller InstaPay IPA">InstaPay IPA للبائع</small>
+<strong data-ar="ضع-IPA-البائع-هنا" data-en="SELLER-IPA-GOES-HERE" id="instapayIpa">ضع-IPA-البائع-هنا</strong>
+</div>
+<button class="btn btn-outline small-btn" data-ar="نسخ" data-en="Copy" id="copyIpaBtn" type="button">نسخ</button>
+</div>
+</div>
+<ol class="instapay-steps">
+<li data-ar="افتحي تطبيق InstaPay." data-en="Open the InstaPay app.">افتحي تطبيق InstaPay.</li>
+<li data-ar="حوّلي إجمالي الطلب الموضح أمامك إلى IPA البائع." data-en="Transfer the displayed order total to the seller's IPA.">حوّلي إجمالي الطلب الموضح أمامك إلى IPA البائع.</li>
+<li data-ar="بعد التحويل، اكتبي رقم/مرجع العملية هنا." data-en="After the transfer, enter the transfer reference here.">بعد التحويل، اكتبي رقم/مرجع العملية هنا.</li>
+</ol>
+<form id="paymentForm">
+<div class="field">
+<label data-ar="رقم/مرجع عملية التحويل" data-en="Transfer reference" for="paymentReference">رقم/مرجع عملية التحويل</label>
+<input autocomplete="off" data-placeholder-ar="مثال: 123456789" data-placeholder-en="Example: 123456789" id="paymentReference" placeholder="مثال: 123456789" required=""/>
+</div>
+<button class="btn full payment-submit" type="submit">
+<span data-ar="تأكيد التحويل وإرسال الطلب" data-en="Confirm transfer &amp; submit order">تأكيد التحويل وإرسال الطلب</span>
+<strong data-ar="0 EGP" data-en="0 EGP" id="paymentTotal">0 EGP</strong>
+</button>
+<p class="payment-legal" data-ar="سيظهر الطلب في لوحة التحكم بحالة «في انتظار مراجعة الدفع» حتى يتم التأكد من التحويل." data-en="The order will appear in the dashboard as pending payment review until the transfer is verified.">
+      سيظهر الطلب في لوحة التحكم بحالة «في انتظار مراجعة الدفع» حتى يتم التأكد من التحويل.
+    </p>
+</form>
+</section>
+<aside class="summary payment-summary">
+<div class="summary-title"><h2 data-ar="ملخص الطلب" data-en="Order summary">ملخص الطلب</h2><a data-ar="تعديل" data-en="Edit" href="cart.html">تعديل</a></div>
+<div id="paymentItems"></div>
+<div class="summary-row"><span data-ar="الشحن" data-en="Shipping">الشحن</span><strong data-ar="محسوب" data-en="Calculated">محسوب</strong></div>
+<div class="summary-row total"><span data-ar="الإجمالي" data-en="Total">الإجمالي</span><strong data-ar="—" data-en="—" id="paymentTotal2">—</strong></div>
+<div class="payment-trust"><span data-ar="✓" data-en="✓">✓</span><div><strong data-ar="مراجعة الدفع" data-en="Payment review">مراجعة الدفع</strong><p data-ar="لن يتم اعتبار الطلب مدفوعًا إلا بعد مراجعة التحويل من لوحة التحكم." data-en="The order is not marked paid until the transfer is verified in the dashboard.">لن يتم اعتبار الطلب مدفوعًا إلا بعد مراجعة التحويل من لوحة التحكم.</p></div></div>
+</aside>
+</div>
+</main>
+<footer><div class="footer-brand">LAVÉRA</div><div data-ar="© ٢٠٢٦ LAVÉRA — جميع الحقوق محفوظة." data-en="© 2026 LAVÉRA — All rights reserved.">© ٢٠٢٦ LAVÉRA — جميع الحقوق محفوظة.</div></footer>
+<a aria-label="cart" class="floating-cart" href="cart.html"><svg aria-hidden="true" class="cart-icon" viewbox="0 0 24 24"><path d="M4 5h2l1.4 9.2a2 2 0 0 0 2 1.7h7.9a2 2 0 0 0 2-1.6L21 8H7" fill="none" stroke="currentColor" stroke-width="1.5"></path><circle cx="10" cy="20" fill="currentColor" r="1"></circle><circle cx="18" cy="20" fill="currentColor" r="1"></circle></svg><span class="count cart-count">0</span></a>
+<div class="toast" id="toast"></div>
+<script>document.addEventListener('DOMContentLoaded',()=>{const t=document.getElementById('paymentTotal'),t2=document.getElementById('paymentTotal2'),a=document.getElementById('instapayAmount');const obs=new MutationObserver(()=>{if(t&&t2)t2.textContent=t.textContent;if(t&&a)a.textContent=t.textContent});if(t)obs.observe(t,{childList:true,characterData:true,subtree:true});if(t&&a)a.textContent=t.textContent;});</script>
+<script src="../js/store-config.js"></script>
+<script defer src="../lavera-i18n.js"></script><script src="../js/app.js" type="module"></script>
+<script src="../lavera-sounds.js"></script>
+<script type="module" src="../js/lavera-2-features.js"></script><script type="module" src="../js/lavera-chat.js"></script><script defer src="../js/lavera-premium.js"></script><script defer src="../js/lavera-themes.js"></script></body></html>

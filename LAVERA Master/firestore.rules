@@ -1,0 +1,97 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create, update, delete: if false;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      // Customers may only perform the stock decrement that is part of an order.
+      // Admins keep full product-management access.
+      allow update: if isAdmin() || (
+        request.resource.data.lastStockOrderId is string &&
+        request.resource.data.lastStockOrderId != resource.data.lastStockOrderId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['variants', 'updatedAt', 'lastStockOrderId']) &&
+        getAfter(/databases/$(database)/documents/orders/$(request.resource.data.lastStockOrderId)).data.stockChanges[productId] is map
+      );
+    }
+
+    match /orders/{orderId} {
+      // Checkout is available only to signed-in customers.
+      allow create: if request.auth != null && request.resource.data.customerUid == request.auth.uid && request.resource.data.orderNumber is string &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.stockDecremented == true &&
+        request.resource.data.stockChanges is map &&
+        request.resource.data.items is list &&
+        request.resource.data.customer is map;
+      allow read: if isAdmin() || (request.auth != null && resource.data.customerUid == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    match /messages/{messageId} {
+      allow create: if request.auth != null && request.resource.data.customerUid == request.auth.uid && request.resource.data.name is string && request.resource.data.email is string && request.resource.data.message is string && request.resource.data.read == false;
+      allow read: if isAdmin() || (request.auth != null && resource.data.customerUid == request.auth.uid);
+      allow update: if isAdmin() || (request.auth != null && resource.data.customerUid == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['customerReply','customerReplyAt']));
+      allow delete: if isAdmin() || (request.auth != null && resource.data.customerUid == request.auth.uid);
+    }
+
+    match /customers/{uid} {
+      allow read: if isAdmin();
+      allow create, read, update: if request.auth != null && request.auth.uid == uid;
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /chats/{uid} {
+      allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
+      allow create, update: if isAdmin() || (request.auth != null && request.auth.uid == uid &&
+        request.resource.data.diff(resource == null ? {} : resource.data).affectedKeys().hasOnly(['customerUid','lastMessage','lastAt','unreadAdmin','unreadCustomer']));
+      allow delete: if isAdmin();
+
+      match /messages/{mid} {
+        allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
+        allow create: if request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1000 && request.resource.data.uid == request.auth.uid && (
+          (request.auth.uid == uid && request.resource.data.from == 'customer') ||
+          (isAdmin() && request.resource.data.from == 'admin'));
+        allow update: if false;
+        allow delete: if isAdmin();
+      }
+    }
+
+    match /expenses/{expenseId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      allow create: if request.auth != null && request.resource.data.customerUid == request.auth.uid && request.resource.data.productId is string && request.resource.data.name is string && request.resource.data.comment is string && request.resource.data.rating is number && request.resource.data.rating >= 1 && request.resource.data.rating <= 5 && request.resource.data.approved == false;
+      allow read: if resource.data.approved == true || isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+
+    match /notifications/{notificationId} {
+      allow create: if isAdmin();
+      allow read: if request.auth != null && resource.data.customerUid == request.auth.uid;
+      allow update: if request.auth != null && resource.data.customerUid == request.auth.uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read','readAt']);
+      allow delete: if isAdmin();
+    }
+
+    match /stockLedger/{stockId} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "pages": {
+    "index.html": [],
+    "pages/about.html": [],
+    "pages/account.html": [],
+    "pages/admin-login.html": [],
+    "pages/admin.html": [],
+    "pages/cart.html": [],
+    "pages/checkout.html": [],
+    "pages/contact.html": [],
+    "pages/customer-order.html": [],
+    "pages/order-details.html": [],
+    "pages/payment.html": [],
+    "pages/product.html": [],
+    "pages/shop.html": [],
+    "pages/wishlist.html": []
+  },
+  "missing": [],
+  "summary": {
+    "html_pages": 14,
+    "missing_translations": 0
+  }
+}
