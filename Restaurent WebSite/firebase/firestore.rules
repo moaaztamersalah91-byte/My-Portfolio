@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function signed() { return request.auth != null; }
+  function admin() { return signed() && request.auth.uid == 'mG2FCNT0GGO5JYmKdAyWqnoys0E2'; }
+  function own(uid) { return signed() && request.auth.uid == uid; }
+  function mine() { return signed() && resource.data.userId == request.auth.uid; }
+  function newMine() { return signed() && request.resource.data.userId == request.auth.uid; }
+  function short(v,n) { return v is string && v.size() > 0 && v.size() <= n; }
+  match /categories/{id} { allow read: if true; allow write: if admin(); }
+  match /products/{id} { allow read: if true; allow write: if admin(); }
+  match /offers/{id} { allow read: if true; allow write: if admin(); }
+  match /meals/{id} { allow read: if true; allow write: if admin(); }
+  match /customers/{uid} {
+   allow read: if admin() || own(uid);
+   allow create,update: if admin() || (own(uid) && request.resource.data.keys().hasOnly(['displayName','email','phone','updatedAt']) && request.resource.data.email == request.auth.token.email);
+   allow delete: if admin();
+  }
+  match /messages/{id} {
+   allow read: if admin() || mine();
+   allow create: if newMine() && request.resource.data.keys().hasOnly(['userId','name','email','text','createdAt']) && short(request.resource.data.text,2000) && short(request.resource.data.name,100) && short(request.resource.data.email,150) && request.resource.data.createdAt == request.time;
+   allow update: if admin();
+   allow delete: if admin() || mine();
+  }
+  match /reservations/{id} {
+   allow read: if admin() || mine();
+   allow create: if newMine() && request.resource.data.keys().hasOnly(['userId','name','phone','date','time','guests','notes','status','createdAt']) && request.resource.data.status == 'Pending' && request.resource.data.guests is int && request.resource.data.guests >= 1 && request.resource.data.guests <= 20 && short(request.resource.data.name,100) && request.resource.data.createdAt == request.time;
+   allow update,delete: if admin();
+  }
+  match /orders/{id} {
+   allow read: if admin() || mine();
+   // NOTE: Client-side cart totals are not server-verifiable in these rules.
+   // Do not treat customer-supplied order totals as trusted financial records until a server-side order creator is deployed.
+   allow create: if admin() || (newMine() && request.resource.data.keys().hasOnly(['userId','customerName','phone','type','address','items','total','status','stockDeducted','payment','source','createdAt']) && request.resource.data.status == 'New' && request.resource.data.stockDeducted == false && request.resource.data.source == 'website' && request.resource.data.payment == 'cash' && request.resource.data.type in ['delivery','takeaway'] && request.resource.data.items is list && request.resource.data.items.size() > 0 && request.resource.data.items.size() <= 25 && request.resource.data.total is number && request.resource.data.total >= 0 && request.resource.data.total <= 100000 && short(request.resource.data.customerName,100) && request.resource.data.createdAt == request.time);
+   allow update,delete: if admin();
+  }
+  match /{path=**} { allow read,write: if admin(); }
+ }
+}
