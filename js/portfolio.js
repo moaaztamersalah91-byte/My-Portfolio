@@ -43,7 +43,7 @@
   }
   function card(p,index){
     const name=p.name?.[lang]||p.name?.en||p.slug; const desc=p.desc?.[lang]||p.desc?.en||''; const cat=p.cat?.[lang]||p.cat?.en||'';
-    return `<article class="project-card reveal"><a class="project-cover" href="${encodeURI(p.path||'#')}" target="_blank" rel="noopener"><img src="${esc(p.cover)}" alt="${esc(name)}" loading="lazy"><span class="project-index">${String(index+1).padStart(2,'0')}</span><span class="project-cover-shade"></span><span class="explore-chip">${t('explore')} ↗</span></a><div class="project-body"><div class="project-meta"><span>${esc(cat)}</span><span>HTML / CSS / JS</span></div><h3>${esc(name)}</h3><p>${esc(desc)}</p><a class="text-link" href="${encodeURI(p.path||'#')}" target="_blank" rel="noopener">${t('explore')} ↗</a></div></article>`;
+    return `<article class="project-card reveal"><a class="project-cover" href="${encodeURI(p.path||'#')}" target="_blank" rel="noopener"><img src="${esc(p.cover)}" alt="${esc(name)}" loading="lazy"><span class="project-index">${String(index+1).padStart(2,'0')}</span><span class="project-cover-shade"></span><span class="explore-chip">${t('explore')} ↗</span></a><div class="project-body"><div class="project-meta"><span>${esc(cat)}</span><span>${esc((p.technologies&&p.technologies.length?p.technologies.slice(0,3):['HTML','CSS','JS']).join(' / '))}</span></div><h3>${esc(name)}</h3><p>${esc(desc)}</p><a class="text-link" href="${encodeURI(p.path||'#')}" target="_blank" rel="noopener">${t('explore')} ↗</a></div></article>`;
   }
   function renderProjects(){
     const grid=document.getElementById('projectGrid'), featured=document.getElementById('featuredGrid'); if(!grid&&!featured)return;
@@ -121,5 +121,12 @@
   }
   function observeReveal(){const els=document.querySelectorAll('.reveal:not(.is-visible)');if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('is-visible'));return;}const io=new IntersectionObserver(entries=>entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('is-visible');io.unobserve(en.target)}}),{threshold:.12});els.forEach(e=>io.observe(e));}
   function renderAll(){renderSkills();renderProjects();renderDetail();observeReveal();}
-  setTheme(theme);bindUI();document.getElementById('year').textContent=new Date().getFullYear();applyLang();
+  async function loadRemote(){
+    try{const A=window.MOAAZ_AUTH;if(!A||!A.configured)return;await A.ready;if(!A.db)return;
+      const snap=await A.db.collection('projects').where('published','==',true).get();
+      snap.docs.forEach(d=>{const r={slug:d.id,...d.data()};if(!r.name||!r.cover)return;const i=projects.findIndex(x=>x.slug===r.slug);if(i>=0)projects[i]={...projects[i],...r};else projects.push(r);});
+      renderAll();
+    }catch(e){console.warn('remote projects',e)}
+  }
+  setTheme(theme);bindUI();loadRemote();document.getElementById('year').textContent=new Date().getFullYear();applyLang();
 })();

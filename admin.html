@@ -1,4 +1,4 @@
-<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard — Moaaz Salah</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body data-protected="admin" data-page="dashboard"><div id="theme-curtain" class="theme-curtain"><span>M</span></div><header class="site-header">
+<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard — Moaaz Salah</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/chat.css"><link rel="stylesheet" href="css/admin.css"></head><body data-protected="admin" data-page="dashboard"><div id="theme-curtain" class="theme-curtain"><span>M</span></div><header class="site-header">
   <a class="brand" href="index.html" aria-label="Moaaz Tamer home"><span class="brand-mark">M</span><span>Moaaz Tamer</span></a>
   <nav class="desktop-nav" aria-label="Primary navigation">
     <a href="index.html" data-page="home" data-i18n="navHome">Home</a>
@@ -13,4 +13,34 @@
     <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme"><span>◐</span></button>
     <button class="menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
   </div>
-</header><main id="adminPage" class="admin-dashboard section-pad"><div class="admin-head"><div><span class="section-kicker" data-i18n="adminKicker">Private area</span><h1 data-i18n="adminTitle">Admin<br><em>access.</em></h1></div><button class="btn btn-outline" data-logout data-i18n="logout">Sign out</button></div><div id="adminStats" class="admin-stats"></div><section class="admin-panel"><div class="admin-panel-head"><div class="section-kicker"><span>01</span><span data-i18n="messages">Messages</span></div><span id="adminStatus" class="admin-live-status"></span></div><div id="adminMessages" class="admin-messages"></div></section><section class="admin-panel"><div class="admin-panel-head"><div class="section-kicker"><span>02</span><span data-i18n="projectsLabel">Projects</span></div><button class="btn btn-outline btn-small" id="seedProjectsBtn" data-i18n="initialize">Initialize 15 projects</button></div><form id="addProjectForm" class="admin-project-form"><div class="admin-form-grid"><label><span data-i18n="projectId">Project ID</span><input name="slug" required data-i18n-placeholder="projectSlugPlaceholder" placeholder="my-new-project"></label><label><span data-i18n="projectNameEn">Name (English)</span><input name="nameEn" required></label><label><span data-i18n="projectNameAr">Name (Arabic)</span><input name="nameAr" required></label><label><span data-i18n="projectCategoryEn">Category (English)</span><input name="catEn" required></label><label><span data-i18n="projectCategoryAr">Category (Arabic)</span><input name="catAr" required></label><label><span data-i18n="projectCover">Cover URL / path</span><input name="cover" required data-i18n-placeholder="coverPlaceholder" placeholder="assets/covers/project.webp"></label><label><span data-i18n="projectDemo">Live Demo URL / path</span><input name="path" required data-i18n-placeholder="demoPlaceholder" placeholder="https://example.com"></label></div><label><span data-i18n="projectDescriptionEn">Description (English)</span><textarea name="descEn" required></textarea></label><label><span data-i18n="projectDescriptionAr">Description (Arabic)</span><textarea name="descAr" required></textarea></label><label><span data-i18n="projectKeywords">Keywords</span><input name="keywords" data-i18n-placeholder="keywordsPlaceholder" placeholder="fashion, store, ecommerce, ملابس"></label><label><span data-i18n="projectTechnologies">Technologies</span><input name="technologies" data-i18n-placeholder="technologiesPlaceholder" placeholder="HTML, CSS, JavaScript"></label><div class="admin-form-actions"><label class="admin-check"><input type="checkbox" name="published" checked><span data-i18n="publishNow">Publish immediately</span></label><button class="btn btn-solid btn-small" type="submit" data-i18n="addProject">Add project ↗</button></div><p id="projectFormStatus" class="auth-error" aria-live="polite"></p></form><div id="adminProjects" class="admin-project-table"></div></section></main><footer class="site-footer"><span>© 2026 Moaaz Salah</span><span data-i18n="privateArea">Private administration</span><a href="index.html" data-i18n="returnHome">Return home</a></footer><script src="js/data.js"></script><script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/app.js"></script></body></html>
+</header><main id="dash" class="dash">
+<div class="dash-top"><div><span class="dash-kicker" data-a="kicker"></span><h1 data-a="title"></h1></div><button class="btn btn-outline" data-logout data-i18n="logout">Sign out</button></div>
+<div class="dash-stats">
+ <div class="dash-stat"><b data-total-users>0</b><span data-a="users"></span></div>
+ <div class="dash-stat"><b id="statProjects">0</b><span data-a="projects"></span></div>
+ <div class="dash-stat"><b id="statUnread">0</b><span data-a="unread"></span></div>
+</div>
+<nav class="dash-tabs" role="tablist">
+ <button type="button" class="active" data-tab="messages"><span data-a="tabMessages"></span><i id="tabUnread" hidden>0</i></button>
+ <button type="button" data-tab="projects"><span data-a="tabProjects"></span></button>
+ <button type="button" data-tab="add"><span data-a="tabAdd"></span></button>
+</nav>
+<section class="dash-panel" data-panel="messages"><div id="adminChats"></div></section>
+<section class="dash-panel" data-panel="projects" hidden><div id="projList" class="proj-list"></div><div class="proj-foot"><button type="button" class="btn btn-outline btn-small" id="importBtn" data-a="import"></button><span id="importStatus" class="dash-note"></span></div></section>
+<section class="dash-panel" data-panel="add" hidden>
+ <form id="addForm" class="add-form" autocomplete="off">
+  <label><span data-a="fName"></span><input name="name" required></label>
+  <label><span data-a="fLink"></span><input name="link" type="url" required placeholder="https://github.com/username/project"></label>
+  <label class="cover-pick"><span data-a="fCover"></span>
+   <input name="cover" type="file" accept="image/*" required>
+   <div class="cover-preview" id="coverPreview"><em data-a="coverHint"></em></div></label>
+  <div class="add-row">
+   <label><span data-a="fKeys"></span><input name="keywords" data-ph="keysPh"></label>
+   <label><span data-a="fTech"></span><input name="tech" data-ph="techPh"></label>
+  </div>
+  <label><span data-a="fDesc"></span><textarea name="desc" rows="4" required></textarea></label>
+  <p class="dash-note" data-a="autoNote"></p>
+  <div class="add-actions"><button class="btn btn-solid" type="submit" id="addBtn" data-a="addBtn"></button><span id="addStatus" class="dash-note" role="status"></span></div>
+ </form>
+</section>
+</main><footer class="site-footer"><span>© 2026 Moaaz Salah</span><span data-i18n="privateArea">Private administration</span><a href="index.html" data-i18n="returnHome">Return home</a></footer><script src="js/data.js"></script><script src="js/firebase-config.js"></script><script src="js/auth.js"></script><script src="js/chat.js"></script><script src="js/admin.js"></script><script src="js/app.js"></script></body></html>

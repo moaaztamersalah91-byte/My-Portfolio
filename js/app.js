@@ -6,11 +6,10 @@
   const key='moaaz-lang', themeKey='moaaz-theme';
   const lang=localStorage.getItem(key)||'en'; document.documentElement.lang=lang; document.documentElement.dir=lang==='ar'?'rtl':'ltr';
   function t(k){return (I18N[document.documentElement.lang]||I18N.en)[k]||k} window.MOAazT=t;
-  function updateDocumentTitle(){const lang=document.documentElement.lang;const path=location.pathname.toLowerCase();let key='homeTitle';if(path.endsWith('/projects.html'))key='projectsTitleDoc';else if(path.endsWith('/about.html'))key='aboutTitleDoc';else if(path.endsWith('/contact.html'))key='contactTitleDoc';else if(path.endsWith('/account.html'))key='accountTitleDoc';else if(path.endsWith('/admin.html'))key='dashboardTitleDoc';else if(path.endsWith('/project.html'))key='projectTitleDoc';document.title=t(key)}
+  function updateDocumentTitle(){const lang=document.documentElement.lang;const path=location.pathname.toLowerCase();let key='homeTitle';if(path.endsWith('/projects.html'))key='projectsTitleDoc';else if(path.endsWith('/about.html'))key='aboutTitleDoc';else if(path.endsWith('/contact.html'))key='contactTitleDoc';else if(path.endsWith('/admin.html'))key='dashboardTitleDoc';else if(path.endsWith('/project.html'))key='projectTitleDoc';document.title=t(key)}
   function apply(){const dict=I18N[document.documentElement.lang]||I18N.en;document.querySelectorAll('[data-i18n]').forEach(el=>{const v=dict[el.dataset.i18n];if(v!==undefined)el.innerHTML=v});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=dict[el.dataset.i18nPlaceholder]||'');const b=document.getElementById('langBtn');if(b){b.textContent=document.documentElement.lang==='ar'?'EN':'AR';b.setAttribute('aria-label',dict.languageToggle)}const tb=document.getElementById('themeBtn');if(tb)tb.setAttribute('aria-label',dict.themeToggle);updateDocumentTitle();}
   function setTheme(theme){document.documentElement.dataset.theme=theme;localStorage.setItem(themeKey,theme)} setTheme(localStorage.getItem(themeKey)||'light');
   function curtain(){const c=document.getElementById('theme-curtain');if(!c)return;c.classList.remove('run');void c.offsetWidth;c.classList.add('run')}
-  window.addEventListener('moaaz:message-live',()=>{renderAccount();});
   window.addEventListener('moaaz:admin-message-live',()=>{renderAdmin();});
   function initMobileMenu(){
     const header=document.querySelector('.site-header');
@@ -87,114 +86,6 @@
   async function renderProjects(){const grid=document.getElementById('projectGrid'),featured=document.getElementById('featuredGrid');if(!grid&&!featured)return;startProjectLive();const filters=document.getElementById('filters');const source=await getProjects();if(filters){const cats=[...new Map(source.map(p=>[p.cat.en,p.cat])).values()];filters.innerHTML=`<button class="filter ${activeCat==='all'?'active':''}" data-cat="all">${document.documentElement.lang==='ar'?'الكل':'All'}</button>`+cats.map(c=>`<button class="filter ${activeCat===c.en?'active':''}" data-cat="${c.en}">${c[document.documentElement.lang]}</button>`).join('');if(!filters.dataset.bound){filters.onclick=e=>{const b=e.target.closest('[data-cat]');if(!b)return;activeCat=b.dataset.cat;renderProjects()};filters.dataset.bound='1'}}const q=norm(document.getElementById('searchInput')?.value||''),l=document.documentElement.lang;const list=source.filter(p=>activeCat==='all'||p.cat.en===activeCat).filter(p=>!q||norm([p.name.en,p.name.ar,p.desc.en,p.desc.ar,p.cat.en,p.cat.ar,...p.tags,...p.keywords,...p.technologies].join(' ')).includes(q));const make=p=>`<article class="project-card" data-project-card="${p.slug}"><a href="${encodeURI(p.path||('project.html?id='+p.slug))}" class="project-cover" target="_blank" rel="noopener"><img src="${p.cover}" alt="${escapeHtml(p.name[l])}" loading="lazy"><span class="project-index">${String(source.indexOf(p)+1).padStart(2,'0')}</span><span class="card-arrow">↗</span><span class="cover-shade"></span></a><div class="project-card-body"><div class="project-card-top"><div><span class="project-cat">${p.cat[l]}</span><h3>${p.name[l]}</h3></div><span class="project-status">${t('liveStatus')}</span></div><p>${p.desc[l]}</p><div class="project-card-bottom"><div class="card-actions"><a class="card-action card-explore" href="${encodeURI(p.path||'#')}" target="_blank" rel="noopener"><span>${t('liveDemo')}</span><b>↗</b></a></div></div></div></article>`;if(grid){grid.innerHTML=list.map(make).join('');const e=document.getElementById('emptyState');if(e)e.hidden=list.length!==0}if(featured)featured.innerHTML=source.slice(0,3).map(make).join('');document.querySelectorAll('#projectCount').forEach(el=>animateNumber(el,source.length))}
   function animateNumber(el,target){const current=Number(el.dataset.value||0);if(current===target){el.textContent=target;return}el.dataset.value=target;const start=performance.now();function step(now){const p=Math.min(1,(now-start)/700),e=1-Math.pow(1-p,3);el.textContent=Math.round(current+(target-current)*e);if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}
   function wireLinks(){document.querySelectorAll('#youtubeLink').forEach(a=>{a.href=PORTFOLIO.youtubeUrl});const f=document.getElementById('facebookLink');if(f){f.href=PORTFOLIO.facebookUrl||'#';if(!PORTFOLIO.facebookUrl)f.addEventListener('click',e=>e.preventDefault())}}
-  function bindMessageForm(){const form=document.getElementById('messageForm');if(!form||form.dataset.bound)return;form.dataset.bound='1';form.onsubmit=async e=>{e.preventDefault();const ta=form.querySelector('textarea'),status=document.getElementById('messageStatus');const text=String(ta?.value||'').trim();if(!text)return;try{await window.MOAAZ_AUTH.sendMessage(text);ta.value='';if(status)status.textContent=t('sent');if(document.getElementById('accountPage'))renderAccount()}catch(err){if(status)status.textContent=window.MOAAZ_AUTH?.authErrorMessage?window.MOAAZ_AUTH.authErrorMessage(err):(err.code==='AUTH_REQUIRED'?t('loginRequired'):(err.code||err.message))}}}
-  let stopAccountLive=null;
-  function cleanupAccountLive(){if(typeof stopAccountLive==='function')stopAccountLive();stopAccountLive=null;}
-  function renderAccountMessages(messages){
-    const box=document.getElementById('messagesList');
-    if(!box)return;
-    const lang=document.documentElement.lang==='ar'?'ar':'en';
-    const sorted=[...messages].sort((a,b)=>{
-      const ta=a.createdAt?.toMillis?a.createdAt.toMillis():(a.createdAt?.seconds?Number(a.createdAt.seconds)*1000:0);
-      const tb=b.createdAt?.toMillis?b.createdAt.toMillis():(b.createdAt?.seconds?Number(b.createdAt.seconds)*1000:0);
-      return ta-tb;
-    });
-    if(!sorted.length){box.innerHTML=`<div class="empty-state"><h3>${t('messages')}</h3><p>${t('noMessages')}</p></div>`;return;}
-    const threads=new Map();
-    sorted.forEach(m=>{
-      const rootId=m.replyTo||m.threadId||m.id;
-      if(!threads.has(rootId))threads.set(rootId,[]);
-      threads.get(rootId).push(m);
-    });
-    box.innerHTML=[...threads.values()].map(thread=>{
-      const root=thread.find(m=>!m.replyTo)||thread[0];
-      const replies=thread.filter(m=>m.replyTo);
-      const timeValue=root.createdAt?.toDate?root.createdAt.toDate():null;
-      const date=timeValue?timeValue.toLocaleString(lang==='ar'?'ar-EG':'en-US'):'—';
-      return `<article class="message-thread">
-        <div class="message-item message-item-user">
-          <div class="message-item-head"><small>${t('userMessage')}</small><time>${escapeHtml(date)}</time></div>
-          <p>${escapeHtml(root.text||'')}</p>
-          <button type="button" class="message-delete message-delete-user" data-delete-message="${escapeHtml(root.id)}">${t('deleteMessage')}</button>
-        </div>
-        ${replies.map(r=>{
-          const rt=r.createdAt?.toDate?r.createdAt.toDate():null;
-          const rd=rt?rt.toLocaleString(lang==='ar'?'ar-EG':'en-US'):'—';
-          return `<div class="message-item message-item-reply"><div class="message-item-head"><small>${t('replyFromAdmin')}</small><time>${escapeHtml(rd)}</time></div><p>${escapeHtml(r.text||'')}</p><button type="button" class="message-delete-reply" data-delete-reply="${escapeHtml(r.id)}">${t('deleteReply')}</button></div>`;
-        }).join('')}
-      </article>`;
-    }).join('');
-    box.querySelectorAll('[data-delete-reply]').forEach(button=>{
-      button.onclick=async()=>{
-        if(!window.MOAAZ_AUTH?.deleteAdminReply)return;
-        if(!window.confirm(t('deleteReplyConfirm')))return;
-        button.disabled=true;
-        try{
-          await window.MOAAZ_AUTH.deleteAdminReply(button.dataset.deleteReply);
-          if(document.getElementById('messageStatus'))document.getElementById('messageStatus').textContent=t('replyDeleted');
-        }catch(err){
-          console.warn('delete admin reply failed',err);
-          button.disabled=false;
-          const status=document.getElementById('messageStatus');
-          if(status)status.textContent=err?.code==='permission-denied'?'Permission denied. Update your Firestore rules to allow users to delete their own admin replies.':(err?.message||err?.code||'Could not delete the reply.');
-        }
-      };
-    });
-    box.querySelectorAll('[data-delete-message]').forEach(button=>{
-      button.onclick=async()=>{
-        if(!window.MOAAZ_AUTH?.deleteUserMessage)return;
-        if(!window.confirm(t('deleteMessageConfirm')))return;
-        button.disabled=true;
-        try{
-          await window.MOAAZ_AUTH.deleteUserMessage(button.dataset.deleteMessage);
-          if(document.getElementById('messageStatus'))document.getElementById('messageStatus').textContent=t('messageDeleted');
-        }catch(err){
-          console.warn('delete user message failed',err);
-          button.disabled=false;
-          const status=document.getElementById('messageStatus');
-          if(status)status.textContent=err?.code==='permission-denied'?'Permission denied. Update your Firestore rules to allow you to delete your own messages.':(err?.message||err?.code||'Could not delete the message.');
-        }
-      };
-    });
-  }
-  function renderAccountNotifications(items){
-    const notes=document.getElementById('notificationsList');
-    if(!notes)return;
-    const sorted=[...items].sort((a,b)=>{
-      const ta=a.createdAt?.toMillis?a.createdAt.toMillis():(a.createdAt?.seconds?Number(a.createdAt.seconds)*1000:0);
-      const tb=b.createdAt?.toMillis?b.createdAt.toMillis():(b.createdAt?.seconds?Number(b.createdAt.seconds)*1000:0);
-      return tb-ta;
-    });
-    notes.innerHTML=sorted.length?sorted.map(n=>`<article class="notification-item ${n.read?'':'unread'}"><span>${escapeHtml(document.documentElement.lang==='ar'?(n.textAr||n.text||''):(n.textEn||n.text||''))}</span><button data-read-note="${n.id}">${n.read?'':'✓'}</button></article>`).join(''):`<div class="empty-state"><p>${t('notifications')}</p></div>`;
-    notes.querySelectorAll('[data-read-note]').forEach(b=>b.onclick=async()=>{try{await window.MOAAZ_AUTH.db.collection('notifications').doc(b.dataset.readNote).update({read:true});}catch(e){console.warn('mark notification read',e)} });
-  }
-  async function startAccountLive(u){
-    cleanupAccountLive();
-    const db=window.MOAAZ_AUTH?.db;if(!db||!u)return;
-    let stopped=false;
-    const unsubs=[];
-    const renderSnapshot=snap=>renderAccountMessages(snap.docs.map(d=>({id:d.id,...d.data()})));
-    unsubs.push(db.collection('messages').where('userId','==',u.uid).onSnapshot(renderSnapshot,err=>{
-      console.warn('account messages load',err);
-      const box=document.getElementById('messagesList');
-      if(box)box.innerHTML=`<div class="empty-state"><h3>${t('messages')}</h3><p>${document.documentElement.lang==='ar'?'تعذر تحميل الرسائل الآن.':'Messages could not be loaded right now.'}</p></div>`;
-    }));
-    unsubs.push(db.collection('notifications').where('recipientId','==',u.uid).onSnapshot(snap=>renderAccountNotifications(snap.docs.map(d=>({id:d.id,...d.data()}))),err=>console.warn('account notifications load',err)));
-    stopAccountLive=()=>{if(stopped)return;stopped=true;unsubs.forEach(fn=>fn());};
-  }
-  async function renderAccount(){
-    const page=document.getElementById('accountPage');
-    if(!window.MOAAZ_AUTH?.db)return;
-    await window.MOAAZ_AUTH.ready;
-    bindMessageForm();
-    if(!page)return;
-    const u=window.MOAAZ_AUTH.auth?.currentUser;if(!u)return;
-    const name=document.querySelector('[data-user-name]');if(name)name.textContent=u.displayName||u.email||'';
-    await startAccountLive(u);
-  }
-  window.addEventListener('moaaz:account-ready',()=>{if(document.getElementById('accountPage')&&window.MOAAZ_AUTH?.auth?.currentUser)renderAccount();});
-  window.addEventListener('moaaz:message-live',()=>{if(document.getElementById('accountPage')&&window.MOAAZ_AUTH?.auth?.currentUser)renderAccount();});
-  window.addEventListener('moaaz:language',()=>{if(document.getElementById('accountPage')&&window.MOAAZ_AUTH?.auth?.currentUser)renderAccount();});
 
   function escapeHtml(v){return String(v||'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]))}
   async function seedProjects(){const db=window.MOAAZ_AUTH?.db;if(!db)return;for(const p of PORTFOLIO.projects){const ref=db.collection('projects').doc(p.slug);const snap=await ref.get();if(!snap.exists)await ref.set({...p,published:true,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})}}
@@ -204,12 +95,12 @@
     await window.MOAAZ_AUTH.ready;
     if(!(await window.MOAAZ_AUTH.requireAdmin()))return;
     const db=window.MOAAZ_AUTH.db;
-    const stats=document.getElementById('adminStats'),list=document.getElementById('adminMessages'),projects=document.getElementById('adminProjects'),status=document.getElementById('adminStatus');
+    const stats=document.getElementById('adminStats'),list=document.getElementById('adminMessages')||document.createElement('div'),projects=document.getElementById('adminProjects'),status=document.getElementById('adminStatus');
     try{
       const [us,ps,ms]=await Promise.all([db.collection('users').get(),db.collection('projects').get(),db.collection('messages').get()]);
       const all=ms.docs.map(d=>({id:d.id,...d.data()})).filter(m=>!m.replyTo && m.repliedByAdmin!==true);
       const unread=all.filter(m=>m.readByAdmin!==true).length;
-      stats.innerHTML=`<div class="admin-stat"><b>${ps.size}</b><span>${t('projectsLabel')}</span></div><div class="admin-stat"><b>${us.size}</b><span>${t('totalUsers')}</span></div><div class="admin-stat"><b>${unread}</b><span>${t('unreadMessages')}</span></div>`;
+      stats.innerHTML=`<div class="admin-stat"><b>${ps.size}</b><span>${t('projectsLabel')}</span></div><div class="admin-stat admin-stat-users"><b data-total-users>${us.size}</b><span>${t('totalUsers')}</span></div><div class="admin-stat"><b>${unread}</b><span>${t('unreadMessages')}</span></div>`;
       list.innerHTML=all.length?all.map(m=>{
         const isUnread=m.readByAdmin!==true;
         return `<article class="admin-message ${isUnread?'is-unread':''}">
@@ -292,7 +183,6 @@
         localStorage.setItem(key,n);
         apply();
         renderProjects();
-        renderAccount();
         renderAdmin();
         window.dispatchEvent(new Event('moaaz:language'));
       },420);
@@ -303,8 +193,6 @@
     if(document.body.classList.contains('home'))loader();
     renderProjects();
     wireLinks();
-    renderAccount();
-    bindMessageForm();
     renderAdmin();
   });
   window.addEventListener('moaaz:admin-ready',()=>renderAdmin());

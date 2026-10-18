@@ -1,0 +1,35 @@
+/* Live chat (user widget + admin inbox). Works with both site themes via var fallbacks. */
+.mz-chat,.mz-admin-chat{--c-bg:var(--card,var(--panel,#fff));--c-ink:var(--ink,var(--text,#111));--c-mut:var(--muted,#888);--c-line:var(--line,rgba(128,128,128,.25));--c-acc:var(--accent,#55e6c1);font-family:var(--font,'Manrope',sans-serif)}
+.mz-chat-fab{position:fixed;inset-inline-end:22px;bottom:22px;z-index:900;width:58px;height:58px;border-radius:50%;border:1px solid var(--c-line);background:var(--c-acc);color:#071014;display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.28);transition:transform .2s}
+.mz-chat-fab:hover{transform:translateY(-3px) scale(1.04)}
+.mz-chat-fab svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mz-chat-badge{position:absolute;top:-4px;inset-inline-end:-4px;min-width:21px;height:21px;padding:0 5px;border-radius:99px;background:#e5484d;color:#fff;font:700 11px/21px var(--mono,monospace);text-align:center}
+.mz-chat-badge[hidden]{display:none}
+.mz-chat-box{position:fixed;inset-inline-end:22px;bottom:92px;z-index:901;width:min(380px,calc(100vw - 32px));height:min(540px,calc(100vh - 130px));display:flex;flex-direction:column;background:var(--c-bg);color:var(--c-ink);border:1px solid var(--c-line);border-radius:18px;box-shadow:0 30px 90px rgba(0,0,0,.35);overflow:hidden;opacity:0;transform:translateY(14px) scale(.98);pointer-events:none;transition:.22s}
+.mz-chat-box.open{opacity:1;transform:none;pointer-events:auto}
+.mz-chat-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--c-line)}
+.mz-chat-avatar{width:36px;height:36px;border-radius:50%;background:var(--c-acc);color:#071014;display:grid;place-items:center;font-weight:800}
+.mz-chat-head strong{display:block;font-size:14px}.mz-chat-head small{display:block;color:var(--c-mut);font-size:11px;margin-top:2px}
+.mz-chat-close{margin-inline-start:auto;background:none;border:0;color:var(--c-mut);font-size:22px;cursor:pointer;line-height:1}
+.mz-chat-list,.mz-ac-thread{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.mz-bubble{max-width:82%;padding:9px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word;border:1px solid var(--c-line)}
+.mz-bubble time{display:block;margin-top:4px;font:10px var(--mono,monospace);opacity:.6}
+.mz-bubble.me{align-self:flex-end;background:var(--c-acc);color:#071014;border-color:transparent;border-end-end-radius:4px}
+.mz-bubble.them{align-self:flex-start;border-end-start-radius:4px}
+.mz-chat-empty{margin:auto;text-align:center;color:var(--c-mut);font-size:13px;padding:20px}
+.mz-chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--c-line)}
+.mz-chat-form textarea{flex:1;resize:none;height:42px;max-height:110px;padding:10px 12px;border:1px solid var(--c-line);border-radius:12px;background:transparent;color:var(--c-ink);font:14px var(--font,sans-serif)}
+.mz-chat-form textarea:focus{outline:none;border-color:var(--c-acc)}
+.mz-chat-form button{border:0;border-radius:12px;padding:0 16px;background:var(--c-acc);color:#071014;font-weight:700;cursor:pointer}
+.mz-chat-form button:disabled{opacity:.5}
+/* admin inbox */
+.mz-admin-chat{display:grid;grid-template-columns:280px 1fr;border:1px solid var(--c-line);margin-top:22px;height:520px;background:var(--c-bg);color:var(--c-ink)}
+.mz-ac-users{border-inline-end:1px solid var(--c-line);overflow-y:auto}
+.mz-ac-user{display:block;width:100%;text-align:start;padding:13px 15px;border:0;border-bottom:1px solid var(--c-line);background:transparent;color:inherit;cursor:pointer;font:inherit}
+.mz-ac-user:hover,.mz-ac-user.active{background:rgba(128,128,128,.12)}
+.mz-ac-user b{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.mz-ac-user b i{font-style:normal;min-width:20px;height:20px;border-radius:99px;background:#e5484d;color:#fff;font:700 11px/20px var(--mono,monospace);text-align:center;padding:0 5px}
+.mz-ac-user small{display:block;margin-top:4px;color:var(--c-mut);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mz-ac-main{display:flex;flex-direction:column;min-width:0}
+.mz-ac-title{padding:13px 16px;border-bottom:1px solid var(--c-line);font-size:14px}.mz-ac-title small{color:var(--c-mut);margin-inline-start:8px}
+@media(max-width:700px){.mz-admin-chat{grid-template-columns:1fr;height:auto}.mz-ac-users{max-height:170px;border-inline-end:0;border-bottom:1px solid var(--c-line)}.mz-ac-main{height:420px}}

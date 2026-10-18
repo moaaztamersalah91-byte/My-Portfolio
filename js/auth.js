@@ -29,7 +29,6 @@
           if(user){
             startUserLive(user);
             if(await isAdmin(user)) startAdminLive(user);
-            if(document.getElementById('accountPage')) window.dispatchEvent(new Event('moaaz:account-ready'));
           } else {
             updateUnread(null);
           }
@@ -38,7 +37,7 @@
   } else window.MOAAZ_USER=null;
 
   function icon(type){
-    const icons={user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-4 3-6 7-6s6.2 2 7 6"/></svg>',bell:'<svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>'}; return icons[type]||'';
+    const icons={user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-4 3-6 7-6s6.2 2 7 6"/></svg>',logout:'<svg viewBox="0 0 24 24"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>',bell:'<svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/></svg>'}; return icons[type]||'';
   }
   async function ensureUser(user){
     if(!db) return;
@@ -73,6 +72,7 @@
     return toast;
   }
   function showLiveToast(kind, data){
+    if(kind==='user-reply' && window.__moaazChatOpen) return;
     const toast=ensureLiveToast();
     const ar=document.documentElement.lang==='ar';
     const isAdminToast=kind==='admin-message';
@@ -85,17 +85,17 @@
     toast.querySelector('.moaaz-toast-copy b').textContent=title;
     toast.querySelector('.moaaz-toast-copy small').textContent=body;
     toast.classList.toggle('is-ar',ar);
-    toast.dataset.target=isAdminToast?'admin.html':'account.html#notifications';
+    toast.dataset.target=isAdminToast?'admin.html':'chat';
     toast.classList.remove('show','restart');
     void toast.offsetWidth;
     toast.classList.add('show','restart');
     clearTimeout(window.__moaazLiveToastTimer);
     window.__moaazLiveToastTimer=setTimeout(()=>toast.classList.remove('show'),6500);
-    toast.onclick=()=>{ const target=toast.dataset.target; toast.classList.remove('show'); if(target) location.href=target; };
+    toast.onclick=()=>{ const target=toast.dataset.target; toast.classList.remove('show'); if(target==='chat') window.dispatchEvent(new Event('moaaz:open-chat')); else if(target) location.href=target; };
   }
   function refreshUserUI(user){
     document.querySelectorAll('[data-auth-slot]').forEach(slot=>{
-      slot.innerHTML = user ? `<a class="auth-user-link" href="account.html" title="${t('account')}">${user.photoURL?`<img src="${user.photoURL}" alt="">`:icon('user')}<span>${escapeHtml((user.displayName||user.email||'').split(' ')[0])}</span></a><a class="notif-link" href="account.html#notifications" title="${t('bell')}">${icon('bell')}<b data-unread-count>0</b></a>` : `<a class="auth-login-link" href="login.html">${icon('user')}<span>${t('login')}</span></a>`;
+      slot.innerHTML = user ? `<span class="auth-user-link" title="${escapeHtml(user.displayName||user.email||'')}">${user.photoURL?`<img src="${user.photoURL}" alt="">`:icon('user')}<span>${escapeHtml((user.displayName||user.email||'').split(' ')[0])}</span></span><button type="button" class="notif-link auth-signout" title="${t('logout')}" aria-label="${t('logout')}">${icon('logout')}</button>` : `<a class="auth-login-link" href="login.html">${icon('user')}<span>${t('login')}</span></a>`;
     });
     if(user && document.body){
       document.querySelectorAll('.desktop-nav a[href="admin.html"]').forEach(a=>{ if(!a.querySelector('[data-admin-unread-count]')){const b=document.createElement('b');b.className='live-nav-badge';b.dataset.adminUnreadCount='';b.hidden=true;b.textContent='0';a.appendChild(b);} });
@@ -163,6 +163,7 @@
   async function signInGoogle(){await ready;if(!auth)throw new Error('FIREBASE_NOT_READY');return auth.signInWithPopup(provider)}
   async function signInEmail(email,password){await ready;if(!auth)throw new Error('FIREBASE_NOT_READY');return auth.signInWithEmailAndPassword(email,password)}
   async function registerEmail(email,password,name){await ready;if(!auth)throw new Error('FIREBASE_NOT_READY');const c=await auth.createUserWithEmailAndPassword(email,password);await c.user.updateProfile({displayName:name});await ensureUser(c.user);return c}
+  document.addEventListener('click',e=>{ if(e.target.closest('.auth-signout')) logout().then(()=>{location.href='index.html'}); });
   async function logout(){await ready;if(auth)return auth.signOut()}
   async function sendMessage(text){
     await ready;if(!db||!auth?.currentUser)throw new Error('AUTH_REQUIRED');const u=auth.currentUser;
@@ -251,13 +252,24 @@
     }
     return messageRef;
   }
+  async function adminChatReply(userId, rootId, text){
+    await ready;
+    if(!db||!auth?.currentUser||!(await isAdmin(auth.currentUser))) throw new Error('ADMIN_REQUIRED');
+    const clean=String(text||'').trim(); if(!clean) throw new Error('EMPTY_REPLY');
+    const admin=auth.currentUser, now=firebase.firestore.FieldValue.serverTimestamp(), name=admin.displayName||admin.email||'Admin';
+    const batch=db.batch(), msgRef=db.collection('messages').doc(), noteRef=db.collection('notifications').doc();
+    batch.set(msgRef,{threadId:rootId,replyTo:rootId,userId,adminId:admin.uid,adminName:name,text:clean,createdAt:now,readByUser:false});
+    batch.set(noteRef,{recipientId:userId,type:'reply',messageId:msgRef.id,read:false,text:'Admin replied to your message',textEn:'Admin replied to your message',textAr:'الأدمن رد على رسالتك',adminName:name,createdAt:now});
+    batch.update(db.collection('messages').doc(rootId),{readByAdmin:true,repliedByAdmin:true});
+    await batch.commit();
+    return msgRef;
+  }
   function handleProtectedPages(user){
     const page=document.body?.dataset?.protected;
     if(page==='admin'){
       if(!user){location.replace('admin-login.html');return;}
       isAdmin(user).then(ok=>{if(!ok)location.replace('admin-login.html?denied=1');else window.dispatchEvent(new Event('moaaz:admin-ready'));});
     }
-    if(page==='account' && !user && location.pathname.endsWith('account.html')) location.replace('login.html');
   }
   function authErrorMessage(err){
     const code=String(err?.code||'');
@@ -269,12 +281,12 @@
   }
   function getAuthReturnUrl(){
     const raw=new URLSearchParams(location.search).get('returnTo');
-    if(!raw)return 'account.html';
+    if(!raw)return 'index.html';
     try{
       const target=new URL(raw,location.href);
-      if(target.origin!==location.origin)return 'account.html';
+      if(target.origin!==location.origin)return 'index.html';
       return target.href;
-    }catch(_){return 'account.html';}
+    }catch(_){return 'index.html';}
   }
 
   function bindLoginPage(){
@@ -411,7 +423,7 @@
     };
   }
 
-  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,deleteAdminReply,deleteUserMessage,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
+  window.MOAAZ_AUTH={ready,configured,labels,t,isAdmin,requireAdmin,showLiveToast,signInGoogle,signInEmail,registerEmail,logout,sendMessage,replyToMessage,adminChatReply,deleteAdminReply,deleteUserMessage,updateUnread,authErrorMessage,bindLoginPage,bindAdminLogin,get db(){return db},get auth(){return auth}};
 
   document.addEventListener('DOMContentLoaded',()=>{
     if(document.getElementById('loginPanel')){ready.then(()=>bindLoginPage());}
